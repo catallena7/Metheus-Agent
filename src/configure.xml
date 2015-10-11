@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="utf-8"?>
+<agent>
+	<plugins>
+		<plugin name="CPU_LOAD">
+			<path>/home/catallena7/workspace-luna-client/Metheus-Agent/plugins/cpu_load.pl</path>
+			<interval>1</interval>
+			<timeout_sec>1</timeout_sec>
+			<columns>
+				<column name="load1">
+					<type name="load1">float</type>
+				</column>
+				<column name="load5">
+					<type name="load5">float</type>
+				</column>
+				<column name="load15">
+					<type name="load15">float</type>
+				</column>
+			</columns>
+		</plugin>
+		<plugin name="CPU">
+			<path>/home/catallena7/workspace-luna-client/Metheus-Agent/plugins/cpu.pl</path>
+			<interval>1</interval>
+			<timeout_sec>1</timeout_sec>
+			<columns>
+				<column name="cpu_irq">
+					<type name="cpu_irq">float</type>
+				</column>
+				<column name="cpu_iowait">
+					<type name="cpu_iowait">float</type>
+				</column>
+				<column name="cpu_softirq">
+					<type name="cpu_softirq">float</type>
+				</column>
+				<column name="cpu_system">
+					<type name="cpu_system">float</type>
+				</column>
+				<column name="cpu_idle">
+					<type name="cpu_idle">float</type>
+				</column>
+				<column name="cpu_nice">
+					<type name="cpu_nice">float</type>
+				</column>
+				<column name="cpu_user">
+					<type name="cpu_user">float</type>
+				</column>
+			</columns>
+		</plugin>
+		<plugin name="MEM">
+			<path>/home/catallena7/workspace-luna-client/Metheus-Agent/plugins/mem.pl</path>
+			<interval>1</interval>
+			<timeout_sec>1</timeout_sec>
+			<columns>
+				<column name="MemTotal">
+					<type name="MemTotal">float</type>
+				</column>
+				<column name="MemFree">
+					<type name="MemFree">float</type>
+				</column>
+				<column name="SwapTotal">
+					<type name="SwapTotal">float</type>
+				</column>
+				<column name="SwapFree">
+					<type name="SwapFree">float</type>
+				</column>
+				<column name="Buffers">
+					<type name="Buffers">float</type>
+				</column>
+				<column name="Cached">
+					<type name="Cached">float</type>
+				</column>
+			</columns>
+		</plugin>
+		<plugin name="disk">
+			<path>/home/catallena7/workspace-luna-client/Metheus-Agent/plugins/disk.pl</path>
+			<interval>1</interval>
+			<timeout_sec>1</timeout_sec>
+			<columns>
+				<column name="dev_0">
+					<type name="dev_0">varchar(15)</type>
+				</column>
+				<column name="used_0">
+					<type name="used_0">float</type>
+				</column>
+				<column name="avail_0">
+					<type name="avail_0">float</type>
+				</column>
+				<column name="usedP_0">
+					<type name="usedP_0">float</type>
+				</column>
+				<column name="dev_1">
+					<type name="dev_1">varchar(15)</type>
+				</column>
+				<column name="used_1">
+					<type name="used_1">float</type>
+				</column>
+				<column name="avail_1">
+					<type name="avail_1">float</type>
+				</column>
+				<column name="usedP_1">
+					<type name="usedP_1">float</type>
+				</column>
+				<column name="dev_2">
+					<type name="dev_2">varchar(15)</type>
+				</column>
+				<column name="used_2">
+					<type name="used_2">float</type>
+				</column>
+				<column name="avail_2">
+					<type name="avail_2">float</type>
+				</column>
+				<column name="usedP_2">
+					<type name="usedP_2">float</type>
+				</column>
+				<column name="dev_3">
+					<type name="dev_3">varchar(15)</type>
+				</column>
+				<column name="used_3">
+					<type name="used_3">float</type>
+				</column>
+				<column name="avail_3">
+					<type name="avail_3">float</type>
+				</column>
+				<column name="usedP_3">
+					<type name="usedP_3">float</type>
+				</column>
+				<column name="dev_4">
+					<type name="dev_4">varchar(15)</type>
+				</column>
+				<column name="used_4">
+					<type name="used_4">float</type>
+				</column>
+				<column name="avail_4">
+					<type name="avail_4">float</type>
+				</column>
+				<column name="usedP_4">
+					<type name="usedP_4">float</type>
+				</column>
+				<column name="dev_5">
+					<type name="dev_5">varchar(15)</type>
+				</column>
+				<column name="used_5">
+					<type name="used_5">float</type>
+				</column>
+				<column name="avail_5">
+					<type name="avail_5">float</type>
+				</column>
+				<column name="usedP_5">
+					<type name="usedP_5">float</type>
+				</column>
+				<column name="dev_6">
+					<type name="dev_6">varchar(15)</type>
+				</column>
+				<column name="used_6">
+					<type name="used_6">float</type>
+				</column>
+				<column name="avail_6">
+					<type name="avail_6">float</type>
+				</column>
+				<column name="usedP_6">
+					<type name="usedP_6">float</type>
+				</column>
+				<column name="dev_7">
+					<type name="dev_7">varchar(15)</type>
+				</column>
+				<column name="used_7">
+					<type name="used_7">float</type>
+				</column>
+				<column name="avail_7">
+					<type name="avail_7">float</type>
+				</column>
+				<column name="usedP_7">
+					<type name="usedP_7">float</type>
+				</column>
+			</columns>
+		</plugin>
+		<plugin name="disk_IO">
+			<path>/home/catallena7/workspace-luna-client/Metheus-Agent/plugins/diskIO.pl</path>
+			<interval>1</interval>
+			<timeout_sec>1</timeout_sec>
+			<columns>
+				<column name="dev_0">
+					<type name="dev_0">varchar(15)</type>
+				</column>
+				<column name="kb_read_sec_0">
+					<type name="kb_read_sec_0">float</type>
+				</column>
+				<column name="kb_wrtn_sec_0">
+					<type name="kb_wrtn_sec_0">float</type>
+				</column>
+				<column name="dev_1">
+					<type name="dev_1">varchar(15)</type>
+				</column>
+				<column name="kb_read_sec_1">
+					<type name="kb_read_sec_1">float</type>
+				</column>
+				<column name="kb_wrtn_sec_1">
+					<type name="kb_wrtn_sec_1">float</type>
+				</column>
+				<column name="dev_2">
+					<type name="dev_2">varchar(15)</type>
+				</column>
+				<column name="kb_read_sec_2">
+					<type name="kb_read_sec_2">float</type>
+				</column>
+				<column name="kb_wrtn_sec_2">
+					<type name="kb_wrtn_sec_2">float</type>
+				</column>
+				<column name="dev_3">
+					<type name="dev_3">varchar(15)</type>
+				</column>
+				<column name="kb_read_sec_3">
+					<type name="kb_read_sec_3">float</type>
+				</column>
+				<column name="kb_wrtn_sec_3">
+					<type name="kb_wrtn_sec_3">float</type>
+				</column>
+				<column name="dev_4">
+					<type name="dev_4">varchar(15)</type>
+				</column>
+				<column name="kb_read_sec_4">
+					<type name="kb_read_sec_4">float</type>
+				</column>
+				<column name="kb_wrtn_sec_4">
+					<type name="kb_wrtn_sec_4">float</type>
+				</column>
+				<column name="dev_5">
+					<type name="dev_5">varchar(15)</type>
+				</column>
+				<column name="kb_read_sec_5">
+					<type name="kb_read_sec_5">float</type>
+				</column>
+				<column name="kb_wrtn_sec_5">
+					<type name="kb_wrtn_sec_5">float</type>
+				</column>
+				<column name="dev_6">
+					<type name="dev_6">varchar(15)</type>
+				</column>
+				<column name="kb_read_sec_6">
+					<type name="kb_read_sec_6">float</type>
+				</column>
+				<column name="kb_wrtn_sec_6">
+					<type name="kb_wrtn_sec_6">float</type>
+				</column>
+				<column name="dev_7">
+					<type name="dev_7">varchar(15)</type>
+				</column>
+				<column name="kb_read_sec_7">
+					<type name="kb_read_sec_7">float</type>
+				</column>
+				<column name="kb_wrtn_sec_7">
+					<type name="kb_wrtn_sec_7">float</type>
+				</column>
+			</columns>
+		</plugin>
+		<plugin name="network_IO">
+			<path>/home/catallena7/workspace-luna-client/Metheus-Agent/plugins/network.pl</path>
+			<interval>1</interval>
+			<timeout_sec>1</timeout_sec>
+			<columns>
+				<column name="rx_eth0">
+					<type name="rx_eth0">float</type>
+				</column>
+				<column name="rx_packets_eth0">
+					<type name="rx_packets_eth0">float</type>
+				</column>
+				<column name="rx_errs_eth0">
+					<type name="rx_errs_eth0">float</type>
+				</column>
+				<column name="rx_drop_eth0">
+					<type name="rx_drop_eth0">float</type>
+				</column>
+				<column name="frame_eth0">
+					<type name="frame_eth0">float</type>
+				</column>
+				<column name="tx_eth0">
+					<type name="tx_eth0">float</type>
+				</column>
+				<column name="tx_packets_eth0">
+					<type name="tx_packets_eth0">float</type>
+				</column>
+				<column name="tx_errs_eth0">
+					<type name="tx_errs_eth0">float</type>
+				</column>
+				<column name="tx_drop_eth0">
+					<type name="tx_drop_eth0">float</type>
+				</column>
+				<column name="colls_eth0">
+					<type name="colls_eth0">float</type>
+				</column>
+				<column name="rx_eth1">
+					<type name="rx_eth1">float</type>
+				</column>
+				<column name="rx_packets_eth1">
+					<type name="rx_packets_eth1">float</type>
+				</column>
+				<column name="rx_errs_eth1">
+					<type name="rx_errs_eth1">float</type>
+				</column>
+				<column name="rx_drop_eth1">
+					<type name="rx_drop_eth1">float</type>
+				</column>
+				<column name="frame_eth1">
+					<type name="frame_eth1">float</type>
+				</column>
+				<column name="tx_eth1">
+					<type name="tx_eth1">float</type>
+				</column>
+				<column name="tx_packets_eth1">
+					<type name="tx_packets_eth1">float</type>
+				</column>
+				<column name="tx_errs_eth1">
+					<type name="tx_errs_eth1">float</type>
+				</column>
+				<column name="tx_drop_eth1">
+					<type name="tx_drop_eth1">float</type>
+				</column>
+				<column name="colls_eth1">
+					<type name="colls_eth1">float</type>
+				</column>
+				<column name="rx_eth2">
+					<type name="rx_eth2">float</type>
+				</column>
+				<column name="rx_packets_eth2">
+					<type name="rx_packets_eth2">float</type>
+				</column>
+				<column name="rx_errs_eth2">
+					<type name="rx_errs_eth2">float</type>
+				</column>
+				<column name="rx_drop_eth2">
+					<type name="rx_drop_eth2">float</type>
+				</column>
+				<column name="frame_eth2">
+					<type name="frame_eth2">float</type>
+				</column>
+				<column name="tx_eth2">
+					<type name="tx_eth2">float</type>
+				</column>
+				<column name="tx_packets_eth2">
+					<type name="tx_packets_eth2">float</type>
+				</column>
+				<column name="tx_errs_eth2">
+					<type name="tx_errs_eth2">float</type>
+				</column>
+				<column name="tx_drop_eth2">
+					<type name="tx_drop_eth2">float</type>
+				</column>
+				<column name="colls_eth2">
+					<type name="colls_eth2">float</type>
+				</column>
+				<column name="rx_eth3">
+					<type name="rx_eth3">float</type>
+				</column>
+				<column name="rx_packets_eth3">
+					<type name="rx_packets_eth3">float</type>
+				</column>
+				<column name="rx_errs_eth3">
+					<type name="rx_errs_eth3">float</type>
+				</column>
+				<column name="rx_drop_eth3">
+					<type name="rx_drop_eth3">float</type>
+				</column>
+				<column name="frame_eth3">
+					<type name="frame_eth3">float</type>
+				</column>
+				<column name="tx_eth3">
+					<type name="tx_eth3">float</type>
+				</column>
+				<column name="tx_packets_eth3">
+					<type name="tx_packets_eth3">float</type>
+				</column>
+				<column name="tx_errs_eth3">
+					<type name="tx_errs_eth3">float</type>
+				</column>
+				<column name="tx_drop_eth3">
+					<type name="tx_drop_eth3">float</type>
+				</column>
+				<column name="colls_eth3">
+					<type name="colls_eth3">float</type>
+				</column>
+			</columns>
+		</plugin> 
+		<plugin name="process_cpuinfo">
+			<path>/home/catallena7/workspace-luna-client/Metheus-Agent/plugins/top10cpu.pl</path>
+			<interval>1</interval>
+			<timeout_sec>1</timeout_sec>
+			<columns>
+				<column name="user_name">
+					<type name="user_name">varchar(30)</type>
+				</column>
+				<column name="pid">
+					<type name="pid">varchar(10)</type>
+				</column>
+				<column name="ppid">
+					<type name="ppid">varchar(10)</type>
+				</column>
+				<column name="pcpu">
+					<type name="pcpu">float</type>
+				</column>
+				<column name="rss">
+					<type name="rss">float</type>
+				</column>
+				<column name="vsz">
+					<type name="vsz">float</type>
+				</column>
+				<column name="elapsed_time">
+					<type name="elapsed_time">varchar(20)</type>
+				</column>
+				<column name="priority">
+					<type name="priority">float</type>
+				</column>
+				<column name="cmd">
+					<type name="cmd">varchar(100)</type>
+				</column>
+			</columns>
+		</plugin>
+		<plugin name="process_meminfo">
+			<path>/home/catallena7/workspace-luna-client/Metheus-Agent/plugins/top10mem.pl</path>
+			<interval>1</interval>
+			<timeout_sec>1</timeout_sec>
+			<columns>
+				<column name="user_name">
+					<type name="user_name">varchar(30)</type>
+				</column>
+				<column name="pid">
+					<type name="pid">varchar(10)</type>
+				</column>
+				<column name="ppid">
+					<type name="ppid">varchar(10)</type>
+				</column>
+				<column name="pcpu">
+					<type name="pcpu">float</type>
+				</column>
+				<column name="rss">
+					<type name="rss">float</type>
+				</column>
+				<column name="vsz">
+					<type name="vsz">float</type>
+				</column>
+				<column name="elapsed_time">
+					<type name="elapsed_time">varchar(20)</type>
+				</column>
+				<column name="priority">
+					<type name="priority">float</type>
+				</column>
+				<column name="cmd">
+					<type name="cmd">varchar(100)</type>
+				</column>
+			</columns>
+		</plugin>
+		<plugin name="process_mon">
+			<path>/home/catallena7/workspace-luna-client/Metheus-Agent/plugins/process_mon.pl</path>
+			<interval>1</interval>
+			<timeout_sec>1</timeout_sec>
+			<columns>
+				<column name="user_name">
+					<type name="user_name">varchar(30)</type>
+				</column>
+				<column name="pid">
+					<type name="pid">varchar(10)</type>
+				</column>
+				<column name="ppid">
+					<type name="ppid">varchar(10)</type>
+				</column>
+				<column name="pcpu">
+					<type name="pcpu">float</type>
+				</column>
+				<column name="rss">
+					<type name="rss">float</type>
+				</column>
+				<column name="vsz">
+					<type name="vsz">float</type>
+				</column>
+				<column name="elapsed_time">
+					<type name="elapsed_time">varchar(20)</type>
+				</column>
+				<column name="priority">
+					<type name="priority">float</type>
+				</column>
+				<column name="cmd">
+					<type name="cmd">varchar(100)</type>
+				</column>
+			</columns>
+		</plugin>
+		<plugin name="total_process">
+			<path>/home/catallena7/workspace-luna-client/Metheus-Agent/plugins/numOfProcess.pl</path>
+			<interval>1</interval>
+			<timeout_sec>1</timeout_sec>
+			<columns>
+				<column name="No_of_process">
+					<type name="No_of_process">float</type>
+				</column>
+			</columns>
+		</plugin>
+		<plugin name="NFS">
+			<path>/home/catallena7/workspace-luna-client/Metheus-Agent/plugins/nfs.pl</path>
+			<interval>1</interval>
+			<timeout_sec>1</timeout_sec>
+			<columns>
+				<column name="user_id">
+					<type name="user_id">varchar(30)</type>
+				</column>
+				<column name="Filer_name">
+					<type name="Filer_name">varchar(30)</type>
+				</column>
+				<column name="Data_type">
+					<type name="Data_type">varchar(20)</type>
+				</column>
+				<column name="value">
+					<type name="value">float</type>
+				</column>
+			</columns>
+		</plugin>
+		 
+		<plugin name="agent_dbsize">
+			<path>/home/catallena7/workspace-luna-client/Metheus-Agent/plugins/diskFull.pl</path>
+			<interval>1</interval>
+			<timeout_sec>1</timeout_sec>
+			<columns>
+				<column name="usedP">
+					<type name="usedP">float</type>
+				</column>
+			</columns>
+		</plugin>
+	
+	</plugins>
+</agent>
