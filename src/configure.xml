@@ -71,7 +71,7 @@
 			</columns>
 		</plugin>
 		<plugin name="disk">
-			<path>/home/catallena7/workspace-luna-client/Agent/plugins/disk.pl</path>
+			<path>/home/catallena7/workspace-luna-client/Metheus-Agent/plugins/disk.pl</path>
 			<interval>1</interval>
 			<timeout_sec>1</timeout_sec>
 			<columns>
@@ -90,7 +90,7 @@
 			</columns>
 		</plugin>
 		<plugin name="disk_IO">
-			<path>/home/catallena7/workspace-luna-client/Agent/plugins/diskIO.pl</path>
+			<path>/home/catallena7/workspace-luna-client/Metheus-Agent/plugins/diskIO.pl</path>
 			<interval>1</interval>
 			<timeout_sec>1</timeout_sec>
 			<columns>
@@ -115,7 +115,7 @@
 			</columns>
 		</plugin>
 		<plugin name="network_IO">
-			<path>/home/catallena7/workspace-luna-client/Agent/plugins/network.pl</path>
+			<path>/home/catallena7/workspace-luna-client/Metheus-Agent/plugins/network.pl</path>
 			<interval>1</interval>
 			<timeout_sec>1</timeout_sec>
 			<columns>
