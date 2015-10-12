@@ -58,7 +58,6 @@ public class PluginExecutor {
 				LOG.debug("only error code from"+pluginPath);
 				dao.insertData(conn,stdOut,pgPluginTable.get(pluginPath),pluginPath);
 			}else{
-				
 				LOG.debug("no out from"+pluginPath);
 			}
 			return true;
