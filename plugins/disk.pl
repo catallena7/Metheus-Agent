@@ -8,25 +8,15 @@ sub main(){
 	my $i=0;
 	foreach my $line (@ORI_DATA_FILE){
 		chomp($line);
+
 		my @items = split /\s+/,$line;
 		if( $items[0] =~m/^\/dev\/(\w+)/){
-			$metrics{"dev_".$i}=$1;
-			$metrics{"used_".$i}=$items[2];
-			$metrics{"avail_".$i}=$items[3];
+			my $dev=$1;
+			my $total=$items[2]+$items[3];
 			$items[4]=~s/%//g;
-			$metrics{"usedP_".$i}=$items[4];
-		$i++;
+			print ("dev_name::".$dev.",,used_kbytes::".$items[2].",,total_kbytes::".$total.",,Capacity::".$items[4]."\n");
 		}
-	
 	}
-	my $key;
-	my $value;
-	my $outStr;
-	while (($key,$value) = each %metrics){
-		$outStr=$outStr.$key."::".$value.",,";
-	}
-	$outStr=~s/,,$/\n/g;
-	print $outStr;
 }
 
 main();
