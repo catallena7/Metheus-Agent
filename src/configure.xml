@@ -285,7 +285,6 @@
 				</column>
 			</columns>
 		</plugin>
-		 
 		<plugin name="agent_dbsize">
 			<path>/home/catallena7/workspace-luna-client/Metheus-Agent/plugins/diskFull.pl</path>
 			<interval>1</interval>

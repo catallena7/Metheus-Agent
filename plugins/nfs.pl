@@ -40,7 +40,12 @@ sub getOldData($){
 }
 
 sub main(){
-	my %OldData=getOldDataInMem($TEMP_DATA_FILE);
+	my %OldData;
+	if (-e $TEMP_DATA_FILE){
+		%OldData=getOldDataInMem($TEMP_DATA_FILE);
+	}else{
+		print("ERROR_CODE:NFS01,SEVERITY:ERROR,MESSAGE:No temp file $TEMP_DATA_FILE\n");
+	}
 
 	open FH,"<$ORI_DATA_FILE" or die("ERROR_CODE:NFS2");
 	my $line;
