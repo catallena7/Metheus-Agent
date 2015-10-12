@@ -54,7 +54,11 @@ public class PluginExecutor {
 			if(stdOut.contains("::")){
 				LOG.debug("outStream="+stdOut);
 				dao.insertData(conn,stdOut,pgPluginTable.get(pluginPath),pluginPath);
+			}else if(stdOut.contains("ERROR_CODE")){
+				LOG.debug("only error code from"+pluginPath);
+				dao.insertData(conn,stdOut,pgPluginTable.get(pluginPath),pluginPath);
 			}else{
+				
 				LOG.debug("no out from"+pluginPath);
 			}
 			return true;
