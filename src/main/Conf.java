@@ -40,7 +40,34 @@ public class Conf {
 	public String  getConfFile(){
 		return this.fileName;
 	}
-	
+	public Long getKeepingDays(){
+		try{
+			LOG.trace(fileName);
+			InputSource is = new InputSource(new FileReader(fileName));
+			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
+			XPath xpath = XPathFactory.newInstance().newXPath();
+			String expression = "/agent/keeping_days";
+			NodeList cols = (NodeList) xpath.compile(expression).evaluate(document,XPathConstants.NODESET);
+			LOG.trace(cols.getLength());
+			for (int idx=0;idx<cols.getLength();idx++){
+				expression="/agent/keeping_days";
+				long days = Integer.parseInt((xpath.compile(expression).evaluate(document)));
+				LOG.trace("days:"+days);
+				return days;
+			}
+		} catch (FileNotFoundException e){
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		return 90L;
+	}
 	public ArrayList <String> getPluginNames(){
 		ArrayList <String> tableList = new ArrayList<String>();
 		try{

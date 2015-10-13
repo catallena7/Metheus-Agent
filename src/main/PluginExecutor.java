@@ -20,6 +20,7 @@ public class PluginExecutor {
 	private HashMap<String,Integer> pgPathIntv=null;
 	private HashMap<String,String> pgPluginTable=null;
 	private HashMap<String,Integer> pgPluginTimeout=null;
+	private HashMap<String,Integer> pgPluginErrorCnt=new HashMap<String,Integer>(); ;
 	private Connection conn;
 	private Dao dao;
 	public PluginExecutor(Conf cf) {
@@ -47,7 +48,6 @@ public class PluginExecutor {
 				return false;
 			}else{
 				LOG.error("execution error");
-				dao.insertEvent(conn, "PE004", "ERROR","plugin Running Error @"+pluginPath);
 				return false;
 			}
 			String stdOut=outputStream.toString();
@@ -63,11 +63,9 @@ public class PluginExecutor {
 			return true;
 		}catch (IOException e){
 			LOG.error("IOException",e);
-			dao.insertEvent(conn, "PE001", "ERROR","plugin execution IO_Error @"+pluginPath);
 			return false;
 		}catch (NullPointerException e){
 			LOG.error("NullPointerException", e);
-			dao.insertEvent(conn, "PE002", "ERROR","plugin execution ColumnError @"+pluginPath);
 			return false;
 		}
 	}
@@ -82,8 +80,21 @@ public class PluginExecutor {
 				LOG.trace("1:"+norTime+" "+pgPathIntv.get(key));
 				LOG.trace("time to run"+key);
 				if (runPluginCommonExecTimeout(key,pgPluginTable.get(key),pgPluginTimeout.get(key))==false){
-					LOG.error("Execution error No such file");
-					dao.insertEvent(conn,"PE001", "ERROR","plugin execution error");
+					LOG.error("Execution error");
+					dao.insertEvent(conn,"PE001", "ERROR","plugin execution error @"+key);
+					if(pgPluginErrorCnt.containsKey(key)){
+						int cnt=pgPluginErrorCnt.get(key);
+						cnt++;
+						pgPluginErrorCnt.put(key,cnt);
+						if (cnt>30){
+							LOG.info(key+" running error exceed. It was removed.");
+							pgPathIntv.remove(key);
+						}
+					}else{
+						pgPluginErrorCnt.put(key,1);
+					}
+				}else{
+					pgPluginErrorCnt.put(key,0);
 				}
 			}else{
 				LOG.trace("2:"+norTime+" "+pgPathIntv.get(key));

@@ -42,6 +42,7 @@ public class Agent {
         props.put("user", "agent");
         props.put("password", "catallena7");
         String protocol=null;
+        long keepdays= cf.getKeepingDays();
 		try {
 			protocol = "jdbc:derby://"+InetAddress.getLocalHost().getHostName()+":32077/";
 			conn = DriverManager.getConnection(protocol+"derbyDB;create=true", props);
@@ -72,7 +73,7 @@ public class Agent {
 				sleepTime=INTERVAL-epNow%INTERVAL;
 				norTime = epNow-sleepTime;
 				if (loopCnt>=1440){
-					dao.deleteData(conn,cf);
+					dao.deleteData(conn,cf,keepdays);
 					loopCnt=0;
 				}
 				LOG.info(now+" epoch:"+epNow+" sleep:"+sleepTime);

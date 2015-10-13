@@ -23,10 +23,10 @@ public class Dao {
 	}
     public static void printSQLException(SQLException e){
         while (e != null){
-            System.err.println("\n----- SQLException -----");
-            System.err.println("  SQL State:  " + e.getSQLState());
-            System.err.println("  Error Code: " + e.getErrorCode());
-            System.err.println("  Message:    " + e.getMessage());
+            LOG.error("\n----- SQLException -----");
+            LOG.error("  SQL State:  " + e.getSQLState());
+            LOG.error("  Error Code: " + e.getErrorCode());
+            LOG.error("  Message:    " + e.getMessage());
             e = e.getNextException();
         }
     }
@@ -308,7 +308,7 @@ public class Dao {
 					HashMap <String,String > errorData = new HashMap<String,String>();
 					String[] errKVitems=line.split(",");
 					for(String errKVitem:errKVitems){
-						//"ERROR_CODE:CPULOAD02,MESSAGE:no file error,SEVERITY:FATAL\n"
+						//Sample: "ERROR_CODE:CPULOAD02,MESSAGE:no file error,SEVERITY:FATAL\n"
 						String errKVPairs[]=errKVitem.split(":");
 						if (errKVPairs.length>=2){
 							if(errKVPairs[0].matches("ERROR_CODE") || errKVPairs[0].matches("SEVERITY") || errKVPairs[0].matches("MESSAGE")){
@@ -327,16 +327,17 @@ public class Dao {
 						LOG.error("message is "+line);
 						this.insertEvent(conn, "NOCODE", "NO",line);
 					}
-					
 				}
 				if (line.contains("::") ){
 					i++;
 				}
 			}
 			LOG.debug("FinalSQL="+strSql);
-			pst = conn.prepareStatement(strSql);
-			pst.executeUpdate();
-			conn.commit();
+			if (strSql.length()>5){
+				pst = conn.prepareStatement(strSql);
+				pst.executeUpdate();
+				conn.commit();
+			}
 		}catch(SQLException sqle){
 			printSQLException(sqle);
 		}catch (ArrayIndexOutOfBoundsException e){
@@ -389,15 +390,17 @@ public class Dao {
 			pst=null;
 		}
 	}
-	public void deleteData(Connection conn, Conf cf) {
+	public void deleteData(Connection conn, Conf cf,long days) {
 		Statement st = null;
 		try{
 			LOG.trace(cf.getConfFile());
 			ArrayList <String> tables= cf.getPluginNames();
 			for (String table:tables){
-				//java.sql.TimeStamp pointTS=java.sql.Timestamp.valueOf("2015-10-08 00:00:00");
-				java.sql.Timestamp basic_timestamp = new java.sql.Timestamp(System.currentTimeMillis()-1000*60*60*24*1L);
-				System.out.println(basic_timestamp);
+				//Sample: java.sql.TimeStamp pointTS=java.sql.Timestamp.valueOf("2015-10-08 00:00:00");
+				long time=1000*60*60*24*days;
+				LOG.info(time);
+				java.sql.Timestamp basic_timestamp = new java.sql.Timestamp(System.currentTimeMillis()-time);
+				LOG.info(basic_timestamp);
 				String SQL="delete from "+table+" where time < timestamp('"+basic_timestamp+"')";
 				LOG.info(SQL);
 				st=conn.createStatement();

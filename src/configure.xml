@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <agent>
+	<keeping_days>90</keeping_days>
 	<plugins>
 		<plugin name="CPU_LOAD">
 			<path>/home/catallena7/workspace-luna-client/Metheus-Agent/plugins/cpu_load.pl</path>
@@ -295,6 +296,5 @@
 				</column>
 			</columns>
 		</plugin>
-	
 	</plugins>
 </agent>
