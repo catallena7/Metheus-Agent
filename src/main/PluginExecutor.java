@@ -94,7 +94,7 @@ public class PluginExecutor {
 						pgPluginErrorCnt.put(key,1);
 					}
 				}else{
-					pgPluginErrorCnt.put(key,0);
+					pgPluginErrorCnt.remove(key);
 				}
 			}else{
 				LOG.trace("2:"+norTime+" "+pgPathIntv.get(key));
