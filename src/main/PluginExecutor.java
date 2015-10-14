@@ -74,6 +74,7 @@ public class PluginExecutor {
 			LOG.error("please check your configuration xml, there is no plugins information");
 			System.exit(0);
 		}
+		String removeKey=null;
 		for (String key : pgPathIntv.keySet()){
 			LOG.trace(key+" "+pgPathIntv.get(key));
 			if (norTime%(pgPathIntv.get(key)*Agent.INTERVAL)==0){
@@ -86,9 +87,8 @@ public class PluginExecutor {
 						int cnt=pgPluginErrorCnt.get(key);
 						cnt++;
 						pgPluginErrorCnt.put(key,cnt);
-						if (cnt>30){
-							LOG.info(key+" running error exceed. It was removed.");
-							pgPathIntv.remove(key);
+						if (cnt>3){
+							removeKey=key;
 						}
 					}else{
 						pgPluginErrorCnt.put(key,1);
@@ -100,6 +100,11 @@ public class PluginExecutor {
 				LOG.trace("2:"+norTime+" "+pgPathIntv.get(key));
 				LOG.trace("skipped    "+key);
 			}
+			if (removeKey!=null){
+				LOG.info(key+" running error exceed. It was removed.");
+				pgPathIntv.remove(key);	
+			}
+			
 		}
 	}
 	public void setPluginPathInterval(HashMap<String, Integer> plugInfos){

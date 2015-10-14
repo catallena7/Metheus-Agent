@@ -72,9 +72,9 @@ public class Agent {
 				epNow = now.getMillis();
 				sleepTime=INTERVAL-epNow%INTERVAL;
 				norTime = epNow-sleepTime;
-				if (loopCnt>=1440){
+				if (loopCnt>=1440||loopCnt==0){
 					dao.deleteData(conn,cf,keepdays);
-					loopCnt=0;
+					loopCnt=1;
 				}
 				LOG.info(now+" epoch:"+epNow+" sleep:"+sleepTime);
 				try {
