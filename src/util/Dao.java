@@ -398,15 +398,15 @@ public class Dao {
 			for (String table:tables){
 				//Sample: java.sql.TimeStamp pointTS=java.sql.Timestamp.valueOf("2015-10-08 00:00:00");
 				long time=1000*60*60*24*days;
-				LOG.info(time);
+				LOG.trace(time);
 				java.sql.Timestamp basic_timestamp = new java.sql.Timestamp(System.currentTimeMillis()-time);
-				LOG.info(basic_timestamp);
+				LOG.trace(basic_timestamp);
 				String SQL="delete from "+table+" where time < timestamp('"+basic_timestamp+"')";
 				LOG.info(SQL);
 				st=conn.createStatement();
 				st.executeUpdate(SQL);
 				conn.commit();
-				LOG.debug("data removed");
+				LOG.trace("data removed");
 			}
 		}catch (SQLException sqle){
 			printSQLException(sqle);

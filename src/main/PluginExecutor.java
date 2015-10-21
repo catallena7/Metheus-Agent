@@ -16,7 +16,6 @@ import util.Dao;
 
 public class PluginExecutor {
 	private static final Logger LOG= LogManager.getLogger(PluginExecutor.class);
-	private static final int RUNNING_ERROR_LIMIT=3;
 	Conf cf=null;
 	private HashMap<String,Integer> pgPathIntv=null;
 	private HashMap<String,String> pgPluginTable=null;
@@ -24,6 +23,7 @@ public class PluginExecutor {
 	private HashMap<String,Integer> pgPluginErrorCnt=new HashMap<String,Integer>(); ;
 	private Connection conn;
 	private Dao dao;
+	private int pgRunLimit;
 	public PluginExecutor(Conf cf) {
 		this.cf=cf;
 	}
@@ -88,7 +88,7 @@ public class PluginExecutor {
 						int cnt=pgPluginErrorCnt.get(key);
 						cnt++;
 						pgPluginErrorCnt.put(key,cnt);
-						if (cnt>RUNNING_ERROR_LIMIT){
+						if (cnt>pgRunLimit){
 							removeKey=key;
 						}
 					}else{
@@ -120,5 +120,9 @@ public class PluginExecutor {
 	public void setDB(Connection conn, Dao dao){
 		this.conn =conn;
 		this.dao=dao;
+	}
+	public void setPluginRunLimit(int plugInRunningErrorLimit) {
+		this.pgRunLimit = plugInRunningErrorLimit;
+		
 	}
 }

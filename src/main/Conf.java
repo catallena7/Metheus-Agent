@@ -68,6 +68,63 @@ public class Conf {
 		}
 		return 90L;
 	}
+	public int getPlugInRunningErrorLimit(){
+		try{
+			LOG.trace(fileName);
+			InputSource is = new InputSource(new FileReader(fileName));
+			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
+			XPath xpath = XPathFactory.newInstance().newXPath();
+			String expression = "/agent/plguin_running_error_limit";
+			NodeList cols = (NodeList) xpath.compile(expression).evaluate(document,XPathConstants.NODESET);
+			LOG.trace(cols.getLength());
+			for (int idx=0;idx<cols.getLength();idx++){
+				expression="/agent/plguin_running_error_limit";
+				int limit = Integer.parseInt((xpath.compile(expression).evaluate(document)));
+				LOG.trace("limit:"+limit);
+				return limit;
+			}
+		} catch (FileNotFoundException e){
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		return 2;
+	}
+	public int getPort(){
+		try{
+			LOG.trace(fileName);
+			InputSource is = new InputSource(new FileReader(fileName));
+			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
+			XPath xpath = XPathFactory.newInstance().newXPath();
+			String expression = "/agent/port";
+			NodeList cols = (NodeList) xpath.compile(expression).evaluate(document,XPathConstants.NODESET);
+			LOG.trace(cols.getLength());
+			for (int idx=0;idx<cols.getLength();idx++){
+				expression="/agent/port";
+				int port = Integer.parseInt((xpath.compile(expression).evaluate(document)));
+				LOG.trace("port:"+port);
+				return port;
+			}
+		} catch (FileNotFoundException e){
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		return 1527;
+	}
+	
 	public ArrayList <String> getPluginNames(){
 		ArrayList <String> tableList = new ArrayList<String>();
 		try{

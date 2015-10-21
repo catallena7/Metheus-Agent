@@ -43,8 +43,9 @@ public class Agent {
         props.put("password", "catallena7");
         String protocol=null;
         long keepdays= cf.getKeepingDays();
+        int port =cf.getPort();
 		try {
-			protocol = "jdbc:derby://"+InetAddress.getLocalHost().getHostName()+":32077/";
+			protocol = "jdbc:derby://"+InetAddress.getLocalHost().getHostName()+":"+port+"/";
 			conn = DriverManager.getConnection(protocol+"derbyDB;create=true", props);
 			conn.setAutoCommit(false);
 			dao.checkTables(conn);
@@ -58,6 +59,7 @@ public class Agent {
 			pe.setPluginPathInterval(cf.getPluginInterval());
 			pe.setPluginPathTable(cf.getPluginTables());
 			pe.setPluginPathTimeout(cf.getPluginTimeout());
+			pe.setPluginRunLimit(cf.getPlugInRunningErrorLimit());
 			int loopCnt=0;
 			dao.insertEvent(conn, "AG000", "INFO","Agent was started");
 			while (true){ 
