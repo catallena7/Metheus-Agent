@@ -6,7 +6,7 @@ my $ORI_DATA_FILE="/proc/loadavg";
 #proc/net/dev
 
 sub main(){
-	open FH,"<$ORI_DATA_FILE" or print("ERROR_CODE:CPULOAD1,SERRITY:ERROR,MESSAGE:No file\n");
+	open FH,"<$ORI_DATA_FILE" or print("ERROR_CODE:CPULOAD1,SEVERITY:ERROR,MESSAGE:No file\n");
 	my $line;
 	my %metrics;
 	my $retStr="";

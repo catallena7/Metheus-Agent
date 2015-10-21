@@ -16,6 +16,7 @@ import util.Dao;
 
 public class PluginExecutor {
 	private static final Logger LOG= LogManager.getLogger(PluginExecutor.class);
+	private static final int RUNNING_ERROR_LIMIT=3;
 	Conf cf=null;
 	private HashMap<String,Integer> pgPathIntv=null;
 	private HashMap<String,String> pgPluginTable=null;
@@ -26,7 +27,7 @@ public class PluginExecutor {
 	public PluginExecutor(Conf cf) {
 		this.cf=cf;
 	}
-	public boolean runPluginCommonExecTimeout(String pluginPath, String table,int timeLimit){
+	public boolean runPluginCommonExec(String pluginPath, String table,int timeLimit){
 		LOG.info("running="+pluginPath);
 		if (pluginPath == null){
 			LOG.error("plugin is null:" + pluginPath);
@@ -80,14 +81,14 @@ public class PluginExecutor {
 			if (norTime%(pgPathIntv.get(key)*Agent.INTERVAL)==0){
 				LOG.trace("1:"+norTime+" "+pgPathIntv.get(key));
 				LOG.trace("time to run"+key);
-				if (runPluginCommonExecTimeout(key,pgPluginTable.get(key),pgPluginTimeout.get(key))==false){
+				if (runPluginCommonExec(key,pgPluginTable.get(key),pgPluginTimeout.get(key))==false){
 					LOG.error("Execution error");
 					dao.insertEvent(conn,"PE001", "ERROR","plugin execution error @"+key);
 					if(pgPluginErrorCnt.containsKey(key)){
 						int cnt=pgPluginErrorCnt.get(key);
 						cnt++;
 						pgPluginErrorCnt.put(key,cnt);
-						if (cnt>3){
+						if (cnt>RUNNING_ERROR_LIMIT){
 							removeKey=key;
 						}
 					}else{
@@ -100,11 +101,11 @@ public class PluginExecutor {
 				LOG.trace("2:"+norTime+" "+pgPathIntv.get(key));
 				LOG.trace("skipped    "+key);
 			}
-			if (removeKey!=null){
-				LOG.info(key+" running error exceed. It was removed.");
-				pgPathIntv.remove(key);	
-			}
-			
+		}
+		if (removeKey!=null){
+			LOG.info(removeKey+" running error exceed. It was removed.");
+			dao.insertEvent(conn,"PE002", "ERROR",removeKey+" running error exceed. It was removed.");
+			pgPathIntv.remove(removeKey);	
 		}
 	}
 	public void setPluginPathInterval(HashMap<String, Integer> plugInfos){

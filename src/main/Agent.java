@@ -59,6 +59,7 @@ public class Agent {
 			pe.setPluginPathTable(cf.getPluginTables());
 			pe.setPluginPathTimeout(cf.getPluginTimeout());
 			int loopCnt=0;
+			dao.insertEvent(conn, "AG000", "INFO","Agent was started");
 			while (true){ 
 				if (dao.isUpdated(conn)){
 					LOG.error("Agent configuration updated - restart to apply");
