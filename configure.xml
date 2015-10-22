@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <agent>
 	<keeping_days>30</keeping_days>
-	<plguin_running_error_limit>5</plguin_running_error_limit>
-	<port>1527</port>
+	<plguin_running_error_limit>1</plguin_running_error_limit>
+	<port>32077</port>
 	<plugins>
 		<plugin name="CPU_LOAD">
-			<path>/home/catallena7/workspaceAgent/plugins/cpu_load.pl</path>
+			<path>/home/catallena7/plugins/cpu_load.pl</path>
 			<interval>1</interval>
 			<timeout_sec>1</timeout_sec>
 			<columns>
@@ -21,7 +21,7 @@
 			</columns>
 		</plugin>
 		<plugin name="CPU">
-			<path>/home/catallena7/workspaceAgent/plugins/cpu.pl</path>
+			<path>/home/catallena7/plugins/cpu.pl</path>
 			<interval>1</interval>
 			<timeout_sec>1</timeout_sec>
 			<columns>
@@ -49,7 +49,7 @@
 			</columns>
 		</plugin>
 		<plugin name="MEM">
-			<path>/home/catallena7/workspaceAgent/plugins/mem.pl</path>
+			<path>/home/catallena7/plugins/mem.pl</path>
 			<interval>1</interval>
 			<timeout_sec>1</timeout_sec>
 			<columns>
@@ -74,7 +74,7 @@
 			</columns>
 		</plugin>
 		<plugin name="disk">
-			<path>/home/catallena7/workspaceAgent/plugins/disk.pl</path>
+			<path>/home/catallena7/plugins/disk.pl</path>
 			<interval>1</interval>
 			<timeout_sec>1</timeout_sec>
 			<columns>
@@ -93,7 +93,7 @@
 			</columns>
 		</plugin>
 		<plugin name="disk_IO">
-			<path>/home/catallena7/workspaceAgent/plugins/diskIO.pl</path>
+			<path>/home/catallena7/plugins/diskIO.pl</path>
 			<interval>1</interval>
 			<timeout_sec>1</timeout_sec>
 			<columns>
@@ -118,7 +118,7 @@
 			</columns>
 		</plugin>
 		<plugin name="network_IO">
-			<path>/home/catallena7/workspaceAgent/plugins/network.pl</path>
+			<path>/home/catallena7/plugins/network.pl</path>
 			<interval>1</interval>
 			<timeout_sec>1</timeout_sec>
 			<columns>
@@ -158,7 +158,7 @@
 			</columns>
 		</plugin>
 		<plugin name="process_cpuinfo">
-			<path>/home/catallena7/workspaceAgent/plugins/top10cpu.pl</path>
+			<path>/home/catallena7/plugins/top10cpu.pl</path>
 			<interval>1</interval>
 			<timeout_sec>1</timeout_sec>
 			<columns>
@@ -192,7 +192,7 @@
 			</columns>
 		</plugin>
 		<plugin name="process_meminfo">
-			<path>/home/catallena7/workspaceAgent/plugins/top10mem.pl</path>
+			<path>/home/catallena7/plugins/top10mem.pl</path>
 			<interval>1</interval>
 			<timeout_sec>1</timeout_sec>
 			<columns>
@@ -226,7 +226,7 @@
 			</columns>
 		</plugin>
 		<plugin name="process_mon">
-			<path>/home/catallena7/workspaceAgent/plugins/process_mon.pl</path>
+			<path>/home/catallena7/plugins/process_mon.pl</path>
 			<interval>1</interval>
 			<timeout_sec>1</timeout_sec>
 			<columns>
@@ -260,7 +260,7 @@
 			</columns>
 		</plugin>
 		<plugin name="total_process">
-			<path>/home/catallena7/workspaceAgent/plugins/numOfProcess.pl</path>
+			<path>/home/catallena7/plugins/numOfProcess.pl</path>
 			<interval>1</interval>
 			<timeout_sec>1</timeout_sec>
 			<columns>
@@ -270,7 +270,7 @@
 			</columns>
 		</plugin>
 		<plugin name="NFS">
-			<path>/home/catallena7/workspaceAgent/plugins/nfs.pl</path>
+			<path>/home/catallena7/plugins/nfs.pl</path>
 			<interval>1</interval>
 			<timeout_sec>1</timeout_sec>
 			<columns>
@@ -289,7 +289,7 @@
 			</columns>
 		</plugin>
 		<plugin name="agent_dbsize">
-			<path>/home/catallena7/workspaceAgent/plugins/diskFull.pl</path>
+			<path>/home/catallena7/plugins/diskFull.pl</path>
 			<interval>1</interval>
 			<timeout_sec>1</timeout_sec>
 			<columns>

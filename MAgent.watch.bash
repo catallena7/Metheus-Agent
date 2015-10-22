@@ -1,7 +1,7 @@
 #!/bin/bash
 
 JAVA_HOME="/opt/jdk1.8.0_51"
-AGENT_HOME="/home/catallena7/workspace-luna-client/Agent"
+AGENT_HOME="/home/catallena7/workspace/Agent"
 JAR_NAME="MAgent.jar"
 CONF_FILE="${AGENT_HOME}/configure.xml"
 
