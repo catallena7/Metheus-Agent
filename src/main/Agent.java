@@ -19,7 +19,7 @@ public class Agent {
 	public static final long INTERVAL = 60000L;
 	public void init(Conf cf, String[] args){
 		if (args.length <1){
-			LOG.error("please input configuration.xml with args");
+			LOG.error("please input config.xml as args");
 			System.exit(0);
 		}
 		cf.setConfFile(args[0]);
