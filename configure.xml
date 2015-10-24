@@ -2,7 +2,7 @@
 <agent>
 	<keeping_days>30</keeping_days>
 	<plguin_running_error_limit>1</plguin_running_error_limit>
-	<port>32077</port>
+	<port>1527</port>
 	<plugins>
 		<plugin name="CPU_LOAD">
 			<path>/home/catallena7/plugins/cpu_load.pl</path>
