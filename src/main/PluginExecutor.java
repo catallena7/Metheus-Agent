@@ -12,6 +12,7 @@ import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import util.Conf;
 import util.Dao;
 
 public class PluginExecutor {

@@ -3,7 +3,7 @@
 JAVA_HOME="/opt/jdk1.8.0_51"
 AGENT_HOME="/home/catallena7"
 JAR_NAME="MAgent.jar"
-CONF_FILE="${AGENT_HOME}/configure.xml"
+CONF_FILE="${AGENT_HOME}/config.xml"
 
 agentPIDs=`ps -ef |grep java |grep jar |grep  ${JAR_NAME} |grep -v grep| awk '{print $2}'`
 
