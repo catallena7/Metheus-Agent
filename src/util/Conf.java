@@ -40,7 +40,7 @@ public class Conf {
 	public String  getConfFile(){
 		return this.fileName;
 	}
-	public Long getKeepingDays(){
+	public long getKeepingDays(){
 		try{
 			LOG.trace(fileName);
 			InputSource is = new InputSource(new FileReader(fileName));
