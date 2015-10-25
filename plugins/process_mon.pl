@@ -9,8 +9,8 @@ sub main(){
 		push @pids,`pgrep -f $keyword`;
 	}
 	foreach my $pid (@pids){ 
-		my $cmd="ps -w --no-heading -o user,pid,ppid,pcpu,rss,vsz,time,pri,cmd -p $pid";
-		my @ORI_CPU_DATA_FILE=`ps -w --no-heading -o user,pid,ppid,pcpu,rss,vsz,time,pri,cmd -p $pid`;
+		my $cmd="ps -w --no-heading -o user,pid,ppid,pcpu,rss,vsz,etime,pri,cmd -p $pid";
+		my @ORI_CPU_DATA_FILE=`$cmd`;
 		foreach my $line (@ORI_CPU_DATA_FILE){
 			my %metrics;
 			chomp($line);

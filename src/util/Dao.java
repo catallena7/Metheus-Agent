@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -340,11 +341,11 @@ public class Dao {
 			printSQLException(sqle);
 		}catch (ArrayIndexOutOfBoundsException e){
 			LOG.error("ArrayIndexOutOfBoundsException");
-			this.insertEvent(conn, "DAO002", "ERROR", "ArrayIndexOutOfBoundsException");
+			this.insertEvent(conn, "DAO002", "ERROR", "ArrayIndex Exception at"+PluginPath);
 		}catch (NullPointerException e){
 			e.printStackTrace();
 			LOG.error("NullPointerException");
-			this.insertEvent(conn, "DAO001", "ERROR", "NullPointExcption");
+			this.insertEvent(conn, "DAO001", "ERROR", "NullPointExcption"+PluginPath);
 		}finally{
 			try{
 				if (pst != null)
