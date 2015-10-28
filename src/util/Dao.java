@@ -90,7 +90,7 @@ public class Dao {
 				}
 				conn.commit();
 			}else{
-				String SQL="create table "+table+"(id int,LAST_UPDATED TIMESTAMP, RESTART_FLAG INT, START_TS TIMESTAMP, LAST_SENT_EVENT_ID INT)";
+				String SQL="create table "+table+"(id int,LAST_UPDATED TIMESTAMP, RESTART_FLAG INT, START_TS TIMESTAMP, LAST_SENT_EVENT_ID INT, VERSION VARCHAR(10))";
 				LOG.trace(SQL);
 				st.execute(SQL);
 				conn.commit();
@@ -158,15 +158,15 @@ public class Dao {
 		LOG.trace(isNewFlag);
 		return isNewFlag;
 	}   
-	public void initData(Connection conn) {
+	public void initData(Connection conn,String version) {
 		PreparedStatement pst= null;
 		try{
 			conn.setAutoCommit(false);
 			String sql = null;
 			if (isNew(conn)){
-				sql = "insert into AGENT_MGR values (0,CURRENT_TIMESTAMP,0,CURRENT_TIMESTAMP,0)";
+				sql = "insert into AGENT_MGR values (0,CURRENT_TIMESTAMP,0,CURRENT_TIMESTAMP,0,'"+version+"')";
 			}else{
-				sql = "update AGENT_MGR set RESTART_FLAG = 0,START_TS = CURRENT_TIMESTAMP where id = 0";
+				sql = "update AGENT_MGR set RESTART_FLAG = 0,START_TS = CURRENT_TIMESTAMP,VERSION='"+version+"' where id = 0";
 			}
 			LOG.trace(sql);
 			pst = conn.prepareStatement(sql);
@@ -341,11 +341,11 @@ public class Dao {
 			printSQLException(sqle);
 		}catch (ArrayIndexOutOfBoundsException e){
 			LOG.error("ArrayIndexOutOfBoundsException");
-			this.insertEvent(conn, "DAO002", "ERROR", "ArrayIndex Exception at"+PluginPath);
+			this.insertEvent(conn, "DAO002", "ERROR", "ArrayIndexOutOfBoundsException at"+PluginPath);
 		}catch (NullPointerException e){
 			e.printStackTrace();
 			LOG.error("NullPointerException");
-			this.insertEvent(conn, "DAO001", "ERROR", "NullPointExcption"+PluginPath);
+			this.insertEvent(conn, "DAO001", "ERROR", "NullPointExcption");
 		}finally{
 			try{
 				if (pst != null)

@@ -17,6 +17,8 @@ import util.Dao;
 public class Agent {
 	private static final Logger LOG= LogManager.getLogger(Agent.class);
 	public static final long INTERVAL = 60000L;
+	public static String VERSION = "1.0.0";
+	
 	public void init(Conf cf, String[] args){
 		if (args.length <1){
 			LOG.error("please input config.xml as args");
@@ -50,7 +52,7 @@ public class Agent {
 			conn = DriverManager.getConnection(protocol+"derbyDB;create=true", props);
 			conn.setAutoCommit(false);
 			dao.checkTables(conn);
-			dao.initData(conn);
+			dao.initData(conn,VERSION);
 			PluginExecutor pe = new PluginExecutor(cf);
 			long epNow=0L;
 			long sleepTime=0L;
