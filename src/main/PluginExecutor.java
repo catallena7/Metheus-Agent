@@ -16,114 +16,130 @@ import util.Conf;
 import util.Dao;
 
 public class PluginExecutor {
-	private static final Logger LOG= LogManager.getLogger(PluginExecutor.class);
-	Conf cf=null;
-	private HashMap<String,Integer> pgPathIntv=null;
-	private HashMap<String,String> pgPluginTable=null;
-	private HashMap<String,Integer> pgPluginTimeout=null;
-	private HashMap<String,Integer> pgPluginErrorCnt=new HashMap<String,Integer>(); ;
+	private static final Logger LOG = LogManager
+			.getLogger(PluginExecutor.class);
+	Conf cf = null;
+	private HashMap<String, Integer> pgPathIntv = null;
+	private HashMap<String, String> pgPluginTable = null;
+	private HashMap<String, Integer> pgPluginTimeout = null;
+	private HashMap<String, Integer> pgPluginErrorCnt = new HashMap<String, Integer>();;
 	private Connection conn;
 	private Dao dao;
 	private int pgRunLimit;
+
 	public PluginExecutor(Conf cf) {
-		this.cf=cf;
+		this.cf = cf;
 	}
-	public boolean runPluginCommonExec(String pluginPath, String table,int timeLimit){
-		LOG.info("running="+pluginPath);
-		if (pluginPath == null){
+
+	public boolean runPluginCommonExec(String pluginPath, String table,
+			int timeLimit) {
+		LOG.info("running=" + pluginPath);
+		if (pluginPath == null) {
 			LOG.error("plugin is null:" + pluginPath);
 			return false;
 		}
-		try{
+		try {
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-			DefaultExecutor executor =  new DefaultExecutor();
-			ExecuteWatchdog watchdog = new ExecuteWatchdog(timeLimit*1000);
+			DefaultExecutor executor = new DefaultExecutor();
+			ExecuteWatchdog watchdog = new ExecuteWatchdog(timeLimit * 1000);
 			executor.setWatchdog(watchdog);
 			CommandLine cmdLine = CommandLine.parse(pluginPath);
-			PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream);
+			PumpStreamHandler streamHandler = new PumpStreamHandler(
+					outputStream);
 			executor.setStreamHandler(streamHandler);
-			if (executor.execute(cmdLine)==0){
+			if (executor.execute(cmdLine) == 0) {
 				LOG.debug("succeed");
-			}else if (watchdog.killedProcess()){
+			} else if (watchdog.killedProcess()) {
 				LOG.error("process timeout");
-				dao.insertEvent(conn, "PE003", "ERROR","plugin Timeout @"+pluginPath);
+				dao.insertEvent(conn, "PE003", "ERROR", "plugin Timeout @"
+						+ pluginPath);
 				return false;
-			}else{
+			} else {
 				LOG.error("execution error");
 				return false;
 			}
-			String stdOut=outputStream.toString();
-			if(stdOut.contains("::")){
-				LOG.debug("outStream="+stdOut);
-				dao.insertData(conn,stdOut,pgPluginTable.get(pluginPath),pluginPath);
-			}else if(stdOut.contains("ERROR_CODE")){
-				LOG.debug("only error code from"+pluginPath);
-				dao.insertData(conn,stdOut,pgPluginTable.get(pluginPath),pluginPath);
-			}else{
-				LOG.debug("no out from"+pluginPath);
+			String stdOut = outputStream.toString();
+			if (stdOut.contains("::")) {
+				LOG.debug("outStream=" + stdOut);
+				dao.insertData(conn, stdOut, pgPluginTable.get(pluginPath),
+						pluginPath);
+			} else if (stdOut.contains("ERROR_CODE")) {
+				LOG.debug("only error code from" + pluginPath);
+				dao.insertData(conn, stdOut, pgPluginTable.get(pluginPath),
+						pluginPath);
+			} else {
+				LOG.debug("no out from" + pluginPath);
 			}
 			return true;
-		}catch (IOException e){
-			LOG.error("IOException",e);
+		} catch (IOException e) {
+			LOG.error("IOException", e);
 			return false;
-		}catch (NullPointerException e){
+		} catch (NullPointerException e) {
 			LOG.error("NullPointerException", e);
 			return false;
 		}
 	}
-	public void runPlugins(Long norTime){
-		if (pgPathIntv.isEmpty()){
+
+	public void runPlugins(Long norTime) {
+		if (pgPathIntv.isEmpty()) {
 			LOG.error("please check your configuration xml, there is no plugins information");
-			System.exit(0);
+			System.exit(255);
 		}
-		String removeKey=null;
-		for (String key : pgPathIntv.keySet()){
-			LOG.trace(key+" "+pgPathIntv.get(key));
-			if (norTime%(pgPathIntv.get(key)*Agent.INTERVAL)==0){
-				LOG.trace("1:"+norTime+" "+pgPathIntv.get(key));
-				LOG.trace("time to run"+key);
-				if (runPluginCommonExec(key,pgPluginTable.get(key),pgPluginTimeout.get(key))==false){
+		String removeKey = null;
+		for (String key : pgPathIntv.keySet()) {
+			LOG.trace(key + " " + pgPathIntv.get(key));
+			if (norTime % (pgPathIntv.get(key) * Agent.INTERVAL) == 0) {
+				LOG.trace("1:" + norTime + " " + pgPathIntv.get(key));
+				LOG.trace("time to run" + key);
+				if (runPluginCommonExec(key, pgPluginTable.get(key),
+						pgPluginTimeout.get(key)) == false) {
 					LOG.error("Execution error");
-					dao.insertEvent(conn,"PE001", "ERROR","plugin execution error @"+key);
-					if(pgPluginErrorCnt.containsKey(key)){
-						int cnt=pgPluginErrorCnt.get(key);
+					dao.insertEvent(conn, "PE001", "ERROR",
+							"plugin execution error @" + key);
+					if (pgPluginErrorCnt.containsKey(key)) {
+						int cnt = pgPluginErrorCnt.get(key);
 						cnt++;
-						pgPluginErrorCnt.put(key,cnt);
-						if (cnt>pgRunLimit){
-							removeKey=key;
+						pgPluginErrorCnt.put(key, cnt);
+						if (cnt > pgRunLimit) {
+							removeKey = key;
 						}
-					}else{
-						pgPluginErrorCnt.put(key,1);
+					} else {
+						pgPluginErrorCnt.put(key, 1);
 					}
-				}else{
+				} else {
 					pgPluginErrorCnt.remove(key);
 				}
-			}else{
-				LOG.trace("2:"+norTime+" "+pgPathIntv.get(key));
-				LOG.trace("skipped    "+key);
+			} else {
+				LOG.trace("2:" + norTime + " " + pgPathIntv.get(key));
+				LOG.trace("skipped    " + key);
 			}
 		}
-		if (removeKey!=null){
-			LOG.info(removeKey+" running error exceed. It was removed.");
-			dao.insertEvent(conn,"PE002", "ERROR",removeKey+" running error exceed. It was removed.");
-			pgPathIntv.remove(removeKey);	
+		if (removeKey != null) {
+			LOG.info(removeKey + " running error exceed. It was removed.");
+			dao.insertEvent(conn, "PE002", "ERROR", removeKey
+					+ " running error exceed. It was removed.");
+			pgPathIntv.remove(removeKey);
 		}
 	}
-	public void setPluginPathInterval(HashMap<String, Integer> plugInfos){
-		this.pgPathIntv=plugInfos;
+
+	public void setPluginPathInterval(HashMap<String, Integer> plugInfos) {
+		this.pgPathIntv = plugInfos;
 	}
-	public void setPluginPathTable(HashMap<String, String> pgPluginTable){
+
+	public void setPluginPathTable(HashMap<String, String> pgPluginTable) {
 		this.pgPluginTable = pgPluginTable;
 	}
-	public void setPluginPathTimeout(HashMap<String, Integer> pgPluginTable){
+
+	public void setPluginPathTimeout(HashMap<String, Integer> pgPluginTable) {
 		this.pgPluginTimeout = pgPluginTable;
 	}
-	public void setDB(Connection conn, Dao dao){
-		this.conn =conn;
-		this.dao=dao;
+
+	public void setDB(Connection conn, Dao dao) {
+		this.conn = conn;
+		this.dao = dao;
 	}
+
 	public void setPluginRunLimit(int plugInRunningErrorLimit) {
 		this.pgRunLimit = plugInRunningErrorLimit;
-		
 	}
 }

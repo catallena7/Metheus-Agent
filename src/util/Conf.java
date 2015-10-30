@@ -24,38 +24,35 @@ import org.xml.sax.SAXException;
 public class Conf {
 	private static final Logger LOG = LogManager.getLogger(Conf.class);
 	private static String fileName = null;
-	public Conf(){
-		
-	}
+
 	@SuppressWarnings("static-access")
-	public void setConfFile(String fileName){
+	public void setConfFile(String fileName) {
 		File f = new File(fileName);
-		if (!f.isFile()){
+		if (!f.isFile()) {
 			LOG.error("There is no configulation xml file");
-			System.exit(0);
+			System.exit(255);
 		}
 		this.fileName = fileName;
 	}
+
 	@SuppressWarnings("static-access")
-	public String  getConfFile(){
+	public String getConfFile() {
 		return this.fileName;
 	}
-	public long getKeepingDays(){
-		try{
+
+	public int getSinglefValue(String key) {
+		try {
 			LOG.trace(fileName);
 			InputSource is = new InputSource(new FileReader(fileName));
-			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
+			Document document = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder().parse(is);
 			XPath xpath = XPathFactory.newInstance().newXPath();
-			String expression = "/agent/keeping_days";
-			NodeList cols = (NodeList) xpath.compile(expression).evaluate(document,XPathConstants.NODESET);
-			LOG.trace(cols.getLength());
-			for (int idx=0;idx<cols.getLength();idx++){
-				expression="/agent/keeping_days";
-				long days = Integer.parseInt((xpath.compile(expression).evaluate(document)));
-				LOG.trace("days:"+days);
-				return days;
-			}
-		} catch (FileNotFoundException e){
+			String expression = "/agent/" + key;
+			int value = Integer.parseInt((xpath.compile(expression)
+					.evaluate(document)));
+			LOG.trace(key + ":" + value);
+			return value;
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (SAXException e) {
 			e.printStackTrace();
@@ -66,80 +63,28 @@ public class Conf {
 		} catch (XPathExpressionException e) {
 			e.printStackTrace();
 		}
-		return 90L;
+		LOG.fatal("No config value about " + key);
+		return 0;
 	}
-	public int getPlugInRunningErrorLimit(){
-		try{
+
+	public ArrayList<String> getPluginNames() {
+		ArrayList<String> tableList = new ArrayList<String>();
+		try {
 			LOG.trace(fileName);
 			InputSource is = new InputSource(new FileReader(fileName));
-			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
-			XPath xpath = XPathFactory.newInstance().newXPath();
-			String expression = "/agent/plguin_running_error_limit";
-			NodeList cols = (NodeList) xpath.compile(expression).evaluate(document,XPathConstants.NODESET);
-			LOG.trace(cols.getLength());
-			for (int idx=0;idx<cols.getLength();idx++){
-				expression="/agent/plguin_running_error_limit";
-				int limit = Integer.parseInt((xpath.compile(expression).evaluate(document)));
-				LOG.trace("limit:"+limit);
-				return limit;
-			}
-		} catch (FileNotFoundException e){
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (XPathExpressionException e) {
-			e.printStackTrace();
-		}
-		return 2;
-	}
-	public int getPort(){
-		try{
-			LOG.trace(fileName);
-			InputSource is = new InputSource(new FileReader(fileName));
-			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
-			XPath xpath = XPathFactory.newInstance().newXPath();
-			String expression = "/agent/port";
-			NodeList cols = (NodeList) xpath.compile(expression).evaluate(document,XPathConstants.NODESET);
-			LOG.trace(cols.getLength());
-			for (int idx=0;idx<cols.getLength();idx++){
-				expression="/agent/port";
-				int port = Integer.parseInt((xpath.compile(expression).evaluate(document)));
-				LOG.trace("port:"+port);
-				return port;
-			}
-		} catch (FileNotFoundException e){
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (XPathExpressionException e) {
-			e.printStackTrace();
-		}
-		return 1527;
-	}
-	
-	public ArrayList <String> getPluginNames(){
-		ArrayList <String> tableList = new ArrayList<String>();
-		try{
-			LOG.trace(fileName);
-			InputSource is = new InputSource(new FileReader(fileName));
-			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
+			Document document = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder().parse(is);
 			XPath xpath = XPathFactory.newInstance().newXPath();
 			String expression = "//plugins/plugin";
-			NodeList cols = (NodeList) xpath.compile(expression).evaluate(document,XPathConstants.NODESET);
-			for (int idx=0;idx<cols.getLength();idx++){
-				String tableName=cols.item(idx).getAttributes().item(0).getTextContent();
+			NodeList cols = (NodeList) xpath.compile(expression).evaluate(
+					document, XPathConstants.NODESET);
+			for (int idx = 0; idx < cols.getLength(); idx++) {
+				String tableName = cols.item(idx).getAttributes().item(0)
+						.getTextContent();
 				tableList.add(tableName);
-				LOG.trace("plugin:"+tableName);
+				LOG.trace("plugin:" + tableName);
 			}
-		} catch (FileNotFoundException e){
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (SAXException e) {
 			e.printStackTrace();
@@ -152,23 +97,29 @@ public class Conf {
 		}
 		return tableList;
 	}
-	public HashMap <String,String> getColumns(String tableName){
-		HashMap <String,String> columnMap = new HashMap<String,String>();
-		try{
-			//LOG.trace(fileName+" "+tableName);
+
+	public HashMap<String, String> getColumns(String tableName) {
+		HashMap<String, String> columnMap = new HashMap<String, String>();
+		try {
+			// LOG.trace(fileName+" "+tableName);
 			InputSource is = new InputSource(new FileReader(fileName));
-			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
+			Document document = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder().parse(is);
 			XPath xpath = XPathFactory.newInstance().newXPath();
-			String expression = "//plugins/plugin[@name='"+tableName+"']/columns/column";
-			NodeList cols = (NodeList) xpath.compile(expression).evaluate(document,XPathConstants.NODESET);
-			for (int idx=0;idx<cols.getLength();idx++){
-				String colName=cols.item(idx).getAttributes().item(0).getTextContent();
-				expression="//plugins/plugin[@name='"+tableName+"']/columns/column/type[@name='"+colName+"']";
+			String expression = "//plugins/plugin[@name='" + tableName
+					+ "']/columns/column";
+			NodeList cols = (NodeList) xpath.compile(expression).evaluate(
+					document, XPathConstants.NODESET);
+			for (int idx = 0; idx < cols.getLength(); idx++) {
+				String colName = cols.item(idx).getAttributes().item(0)
+						.getTextContent();
+				expression = "//plugins/plugin[@name='" + tableName
+						+ "']/columns/column/type[@name='" + colName + "']";
 				String colType = xpath.compile(expression).evaluate(document);
 				columnMap.put(colName, colType);
-				LOG.trace("column:"+colName+","+colType);
+				LOG.trace("column:" + colName + "," + colType);
 			}
-		} catch (FileNotFoundException e){
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (SAXException e) {
 			e.printStackTrace();
@@ -181,25 +132,32 @@ public class Conf {
 		}
 		return columnMap;
 	}
+
 	public HashMap<String, Integer> getPluginInterval() {
-		HashMap <String,Integer> pgPthIntv = new HashMap<String,Integer>();
-		try{
+		HashMap<String, Integer> pgPthIntv = new HashMap<String, Integer>();
+		try {
 			LOG.trace(fileName);
 			InputSource is = new InputSource(new FileReader(fileName));
-			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
+			Document document = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder().parse(is);
 			XPath xpath = XPathFactory.newInstance().newXPath();
 			String expression = "//plugins/plugin";
-			NodeList cols = (NodeList) xpath.compile(expression).evaluate(document,XPathConstants.NODESET);
-			for (int idx=0;idx<cols.getLength();idx++){
-				String pluginName=cols.item(idx).getAttributes().item(0).getTextContent();
-				expression="//plugins/plugin[@name='"+pluginName+"']/path";
+			NodeList cols = (NodeList) xpath.compile(expression).evaluate(
+					document, XPathConstants.NODESET);
+			for (int idx = 0; idx < cols.getLength(); idx++) {
+				String pluginName = cols.item(idx).getAttributes().item(0)
+						.getTextContent();
+				expression = "//plugins/plugin[@name='" + pluginName
+						+ "']/path";
 				String path = xpath.compile(expression).evaluate(document);
-				expression="//plugins/plugin[@name='"+pluginName+"']/interval";
-				int interval = Integer.parseInt((xpath.compile(expression).evaluate(document)));
+				expression = "//plugins/plugin[@name='" + pluginName
+						+ "']/interval";
+				int interval = Integer.parseInt((xpath.compile(expression)
+						.evaluate(document)));
 				pgPthIntv.put(path, interval);
-				LOG.trace("plugin:"+path+":"+interval);
+				LOG.trace("plugin:" + path + ":" + interval);
 			}
-		} catch (FileNotFoundException e){
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (SAXException e) {
 			e.printStackTrace();
@@ -209,28 +167,32 @@ public class Conf {
 			e.printStackTrace();
 		} catch (XPathExpressionException e) {
 			e.printStackTrace();
-		} catch (NumberFormatException e){
+		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
 		return pgPthIntv;
 	}
+
 	public HashMap<String, String> getPluginTables() {
-		HashMap <String,String> pluginTables = new HashMap<String,String>();
-		try{
+		HashMap<String, String> pluginTables = new HashMap<String, String>();
+		try {
 			LOG.trace(fileName);
 			InputSource is = new InputSource(new FileReader(fileName));
-			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
+			Document document = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder().parse(is);
 			XPath xpath = XPathFactory.newInstance().newXPath();
 			String expression = "//plugins/plugin";
-			NodeList cols = (NodeList) xpath.compile(expression).evaluate(document,XPathConstants.NODESET);
-			for (int idx=0;idx<cols.getLength();idx++){
-				String table=cols.item(idx).getAttributes().item(0).getTextContent();
-				expression="//plugins/plugin[@name='"+table+"']/path";
+			NodeList cols = (NodeList) xpath.compile(expression).evaluate(
+					document, XPathConstants.NODESET);
+			for (int idx = 0; idx < cols.getLength(); idx++) {
+				String table = cols.item(idx).getAttributes().item(0)
+						.getTextContent();
+				expression = "//plugins/plugin[@name='" + table + "']/path";
 				String path = xpath.compile(expression).evaluate(document);
 				pluginTables.put(path, table);
-				LOG.trace("plugin:"+path+":"+table);
+				LOG.trace("plugin:" + path + ":" + table);
 			}
-		} catch (FileNotFoundException e){
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (SAXException e) {
 			e.printStackTrace();
@@ -240,30 +202,37 @@ public class Conf {
 			e.printStackTrace();
 		} catch (XPathExpressionException e) {
 			e.printStackTrace();
-		} catch (NumberFormatException e){
+		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
 		return pluginTables;
 	}
+
 	public HashMap<String, Integer> getPluginTimeout() {
-		HashMap <String,Integer> pgPthTout = new HashMap<String,Integer>();
-		try{
-			
+		HashMap<String, Integer> pgPthTout = new HashMap<String, Integer>();
+		try {
+
 			InputSource is = new InputSource(new FileReader(fileName));
-			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
+			Document document = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder().parse(is);
 			XPath xpath = XPathFactory.newInstance().newXPath();
 			String expression = "//plugins/plugin";
-			NodeList cols = (NodeList) xpath.compile(expression).evaluate(document,XPathConstants.NODESET);
-			for (int idx=0;idx<cols.getLength();idx++){
-				String pluginName=cols.item(idx).getAttributes().item(0).getTextContent();
-				expression="//plugins/plugin[@name='"+pluginName+"']/path";
+			NodeList cols = (NodeList) xpath.compile(expression).evaluate(
+					document, XPathConstants.NODESET);
+			for (int idx = 0; idx < cols.getLength(); idx++) {
+				String pluginName = cols.item(idx).getAttributes().item(0)
+						.getTextContent();
+				expression = "//plugins/plugin[@name='" + pluginName
+						+ "']/path";
 				String path = xpath.compile(expression).evaluate(document);
-				expression="//plugins/plugin[@name='"+pluginName+"']/timeout_sec";
-				int interval = Integer.parseInt((xpath.compile(expression).evaluate(document)));
+				expression = "//plugins/plugin[@name='" + pluginName
+						+ "']/timeout_sec";
+				int interval = Integer.parseInt((xpath.compile(expression)
+						.evaluate(document)));
 				pgPthTout.put(path, interval);
-				LOG.trace("plugin:"+path+":"+interval);
+				LOG.trace("plugin:" + path + ":" + interval);
 			}
-		} catch (FileNotFoundException e){
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (SAXException e) {
 			e.printStackTrace();
@@ -273,7 +242,7 @@ public class Conf {
 			e.printStackTrace();
 		} catch (XPathExpressionException e) {
 			e.printStackTrace();
-		} catch (NumberFormatException e){
+		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
 		return pgPthTout;
