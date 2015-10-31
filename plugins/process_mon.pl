@@ -30,11 +30,11 @@ sub main(){
 			$metrics{"cmd"}=substr ($metrics{"cmd"},0,100);
 			my $pcpu=$metrics{"pcpu"};
 			if ($pcpu >20 && $metrics{"elapsed_time"}=~m/\d+\-/){
-				print ("ERROR_CODE:AGENT_CPU0,SEVERITY:FATAL,MESSAGE:Agent CPU usage is $pcpu%\n");
+				print ("ERROR_CODE:AGENT_CPU0,SEVERITY:FATAL,MESSAGE:$pid Process CPU usage is $pcpu%\n");
 			}
 			my $rss=$metrics{"rss"};
 			if ($rss >2000000) && $metrics{"elapsed_time"}=~m/\d+\-/){
-				print ("ERROR_CODE:AGENT_MEM0,SEVERITY:WARN,MESSAGE:Agent MEM usage is $rss Bytes\n");
+				print ("ERROR_CODE:AGENT_MEM0,SEVERITY:WARN,MESSAGE:$pid Process MEM usage is $rss Bytes\n");
 			}
 			my $key;
 			my $value;
