@@ -80,15 +80,15 @@ public class PluginExecutor {
 		}
 	}
 
-	public void runPlugins(Long norTime) {
+	public void runPlugins(Long norTime,Long interval) {
 		if (pgPathIntv.isEmpty()) {
 			LOG.error("please check your configuration xml, there is no plugins information");
-			System.exit(255);
+			System.exit(1);
 		}
 		String removeKey = null;
 		for (String key : pgPathIntv.keySet()) {
 			LOG.trace(key + " " + pgPathIntv.get(key));
-			if (norTime % (pgPathIntv.get(key) * Agent.INTERVAL) == 0) {
+			if (norTime % (pgPathIntv.get(key) * interval) == 0) {
 				LOG.trace("1:" + norTime + " " + pgPathIntv.get(key));
 				LOG.trace("time to run" + key);
 				if (runPluginCommonExec(key, pgPluginTable.get(key),

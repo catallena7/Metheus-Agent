@@ -30,7 +30,7 @@ public class Conf {
 		File f = new File(fileName);
 		if (!f.isFile()) {
 			LOG.error("There is no configulation xml file");
-			System.exit(255);
+			System.exit(1);
 		}
 		this.fileName = fileName;
 	}

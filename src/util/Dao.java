@@ -34,7 +34,7 @@ public class Dao {
 			if (e.getMessage().contains("Table/View")
 					|| e.getMessage().contains(" does not exist.")) {
 				LOG.fatal(e.getMessage());
-				System.exit(255);
+				System.exit(1);
 			}
 			e = e.getNextException();
 		}
@@ -76,9 +76,9 @@ public class Dao {
 				} else {
 					String SQL = "create table " + table + "(time TIMESTAMP ";
 					if (columnMap.isEmpty()) {
-						LOG.error("Please check your configuration xml, there is no table information about the "
-								+ table);
-						System.exit(0);
+						LOG.error("Please check your configuration xml, there is no table "
+								+ "information about the " + table);
+						System.exit(1);
 					}
 					for (String key : columnMap.keySet()) {
 						SQL = SQL + "," + key + " " + columnMap.get(key);
@@ -110,8 +110,10 @@ public class Dao {
 			} else {
 				String SQL = "create table "
 						+ table
-						+ " (ID INT,LAST_UPDATED_TIMESTAMP TIMESTAMP, RESTART_FLAG INT, AGENT_START_TIMESTAMP TIMESTAMP, LAST_SENT_EVENT_ID INT, "
-						+ "AGENT_VERSION VARCHAR(10), DISTRO_VERSION VARCHAR(100), KERNEL_VERSION VARCHAR(100), NO_OF_PROCESSOR INT)";
+						+ " (ID INT,LAST_UPDATED_TIMESTAMP TIMESTAMP, RESTART_FLAG INT, "
+						+ "AGENT_START_TIMESTAMP TIMESTAMP, LAST_SENT_EVENT_ID INT, "
+						+ "AGENT_VERSION VARCHAR(10), DISTRO_VERSION VARCHAR(100), KERNEL_VERSION VARCHAR(100), "
+						+ "NO_OF_PROCESSOR INT, PROCESSOR_MODEL VARCHAR(100))";
 				LOG.trace(SQL);
 				st.execute(SQL);
 				conn.commit();
@@ -134,7 +136,8 @@ public class Dao {
 				String SQL = "create table "
 						+ EventTable
 						+ "(id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)"
-						+ ",event_code varchar(20), severity varchar(10), message varchar(500), time TIMESTAMP,CONSTRAINT primary_key PRIMARY KEY (id))";
+						+ ",event_code varchar(20), severity varchar(10), message varchar(500), "
+						+ "time TIMESTAMP,CONSTRAINT primary_key PRIMARY KEY (id))";
 				LOG.trace(SQL);
 				st.execute(SQL);
 				conn.commit();
@@ -161,11 +164,14 @@ public class Dao {
 			String sysArch = System.getProperty("os.arch");
 			String osName = System.getProperty("os.name");
 			String linuxDistroVer = "";
+			String processorModel = "";
 			if (osName.matches("Linux")) {
 				linuxDistroVer = getLinuxDistroVer();
+				processorModel = getProcessorModel();
 			}
 			LOG.trace("cpu=" + noOfProcessor + ",osVersion=" + kernelVer
-					+ ",sysArch=" + sysArch + ",distro=" + linuxDistroVer);
+					+ ",sysArch=" + sysArch + ",distro=" + linuxDistroVer
+					+ ",processorModel=" + processorModel);
 			conn.setAutoCommit(false);
 			String sql = null;
 			if (isNew(conn)) {
@@ -175,7 +181,7 @@ public class Dao {
 						+ linuxDistroVer
 						+ "','"
 						+ kernelVer
-						+ "'," + noOfProcessor + ")";
+						+ "'," + noOfProcessor + ",'" + processorModel + "')";
 			} else {
 				sql = "update AGENT_MGR set RESTART_FLAG = 0,AGENT_START_TIMESTAMP = CURRENT_TIMESTAMP, "
 						+ "AGENT_VERSION='"
@@ -186,7 +192,9 @@ public class Dao {
 						+ kernelVer
 						+ "',NO_OF_PROCESSOR="
 						+ noOfProcessor
-						+ " where id = 0";
+						+ ",PROCESSOR_MODEL='"
+						+ processorModel
+						+ "' where id = 0";
 			}
 			LOG.trace(sql);
 			pst = conn.prepareStatement(sql);
@@ -244,7 +252,6 @@ public class Dao {
 			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 			String line;
 			while ((line = br.readLine()) != null) {
-				System.out.println(line);
 				distroVer = line;
 				break;
 			}
@@ -253,6 +260,28 @@ public class Dao {
 			return "no system-releae file";
 		}
 		return distroVer;
+	}
+
+	private String getProcessorModel() {
+		String cpuModel = "";
+		try {
+			FileInputStream fis = new FileInputStream("/proc/cpuinfo");
+			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+			String line;
+			while ((line = br.readLine()) != null) {
+				if (line.startsWith("model name")) {
+					String[] items = line.split(":");
+					if (items.length >= 2) {
+						cpuModel = items[1];
+						break;
+					}
+				}
+			}
+			br.close();
+		} catch (IOException e) {
+			return "no system-releae file";
+		}
+		return cpuModel;
 	}
 
 	public boolean isUpdated(Connection conn) {

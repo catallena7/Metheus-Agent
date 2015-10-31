@@ -16,8 +16,17 @@ import util.Dao;
 
 public class Agent {
 	private static final Logger LOG = LogManager.getLogger(Agent.class);
-	public static final long INTERVAL = 60000L;
+	private long interval = 60000L;
 	public static String VERSION = "1.0.1";
+
+	public long getInterval() {
+		return interval;
+	}
+
+	public void setInterval(long interval) {
+		LOG.info("Interval="+interval);
+		this.interval = interval;
+	}
 
 	public void init(Conf cf, String[] args) {
 		if (args.length < 1) {
@@ -36,11 +45,14 @@ public class Agent {
 			e = e.getNextException();
 		}
 	}
-
+	
+	
 	public static void main(String[] args) {
 		Conf cf = new Conf();
 		Agent agent = new Agent();
+		long interval=agent.getInterval();
 		agent.init(cf, args);
+		agent.setInterval(cf.getSinglefValue("running_interval_second")*1000L);
 		Dao dao = new Dao();
 		Connection conn = null;
 		Properties props = new Properties();
@@ -76,16 +88,16 @@ public class Agent {
 					LOG.error("Agent configuration updated - need to start for apply");
 					dao.insertEvent(conn, "AG001", "INFO",
 							"agent restart for config apply");
-					System.exit(0);
+					System.exit(1);
 				}
 				dao.setLastUpdateTime(conn);
 				now = new DateTime();
 				epNow = now.getMillis();
-				norTime = epNow - epNow % INTERVAL;
-				pe.runPlugins(norTime);
+				norTime = epNow - epNow % interval;
+				pe.runPlugins(norTime,interval);
 				now = new DateTime();
 				epNow = now.getMillis();
-				sleepTime = INTERVAL - epNow % INTERVAL;
+				sleepTime = interval - epNow % interval;
 				norTime = epNow - sleepTime;
 				if (loopCnt >= 1440 || loopCnt == 0) {
 					dao.deleteData(conn, cf, keepdays);
@@ -101,10 +113,10 @@ public class Agent {
 			}
 		} catch (UnknownHostException e) {
 			LOG.fatal("Getting Hostname");
-			System.exit(0);
+			System.exit(1);
 		} catch (SQLException e) {
 			printSQLException(e);
-			System.exit(0);
+			System.exit(1);
 		} finally {
 			try {
 				if (conn != null) {

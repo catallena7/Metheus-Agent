@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <agent>
+	<running_interval_second>60</running_interval_second>
 	<keeping_days>30</keeping_days>
-	<plguin_running_error_limit>1</plguin_running_error_limit>
+	<plguin_running_error_limit>3</plguin_running_error_limit>
 	<port>1527</port>
 	<plugins>
 		<plugin name="CPU_LOAD">
