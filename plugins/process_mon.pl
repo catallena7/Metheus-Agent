@@ -24,17 +24,21 @@ sub main(){
 			$metrics{"elapsed_time"}=$items[6];
 			$metrics{"priority"}=$items[7];
 			$metrics{"cmd"}="";
-			for (my $j=7;$j<=$#items;$j++){
+			for (my $j=8;$j<=$#items;$j++){
 				$metrics{"cmd"}=$metrics{"cmd"}.$items[$j]." ";
 			}
 			$metrics{"cmd"}=substr ($metrics{"cmd"},0,100);
 			my $pcpu=$metrics{"pcpu"};
 			if ($pcpu >20 && $metrics{"elapsed_time"}=~m/\d+\-/){
-				print ("ERROR_CODE:AGENT_CPU0,SEVERITY:FATAL,MESSAGE:$pid Process CPU usage is $pcpu%\n");
+				my $pid_str=$metrics{"pid"};
+				my $cmd_str=$metrics{"cmd"};
+				print ("ERROR_CODE::AGENT_CPU0,,SEVERITY::FATAL,,MESSAGE::PID:$pid_str($cmd_str) CPU usage is $pcpu%\n");
 			}
 			my $rss=$metrics{"rss"};
-			if ($rss >2000000) && $metrics{"elapsed_time"}=~m/\d+\-/){
-				print ("ERROR_CODE:AGENT_MEM0,SEVERITY:WARN,MESSAGE:$pid Process MEM usage is $rss Bytes\n");
+			if ($rss >1000000 && $metrics{"elapsed_time"}=~m/\d+\-/){
+				my $pid_str=$metrics{"pid"};
+				my $cmd_str=$metrics{"cmd"};
+				print ("ERROR_CODE::AGENT_MEM0,,SEVERITY::WARN,,MESSAGE::PID:$pid_str($cmd_str) Process MEM usage is $rss KBytes\n");
 			}
 			my $key;
 			my $value;

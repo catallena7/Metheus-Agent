@@ -19,7 +19,7 @@ sub main(){
 		$mem_metrics{"elapsed_time"}=$items[6];
 		$mem_metrics{"priority"}=$items[7];
 		$mem_metrics{"cmd"}="";
-		for (my $j=7;$j<=$#items;$j++){
+		for (my $j=8;$j<=$#items;$j++){
 			$mem_metrics{"cmd"}=$mem_metrics{"cmd"}.$items[$j]." ";
 		}
 		$mem_metrics{"cmd"}=substr ($mem_metrics{"cmd"},0,100);

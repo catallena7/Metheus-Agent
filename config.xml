@@ -6,9 +6,9 @@
 	<port>1527</port>
 	<plugins>
 		<plugin name="CPU_LOAD">
-			<path>/home/catallena7/plugins/cpu_load.pl</path>
-			<interval>1</interval>
-			<timeout_sec>1</timeout_sec>
+			<path>/home/catallena7/workspace/Metheus-Agent/plugins/cpu_load.pl</path>
+			<interval_sec>60</interval_sec>
+			<timeout_sec>2</timeout_sec>
 			<columns>
 				<column name="load1">
 					<type name="load1">float</type>
@@ -22,9 +22,9 @@
 			</columns>
 		</plugin>
 		<plugin name="CPU">
-			<path>/home/catallena7/plugins/cpu.pl</path>
-			<interval>1</interval>
-			<timeout_sec>1</timeout_sec>
+			<path>/home/catallena7/workspace/Metheus-Agent/plugins/cpu.pl</path>
+			<interval_sec>60</interval_sec>
+			<timeout_sec>2</timeout_sec>
 			<columns>
 				<column name="cpu_irq">
 					<type name="cpu_irq">float</type>
@@ -50,9 +50,9 @@
 			</columns>
 		</plugin>
 		<plugin name="MEM">
-			<path>/home/catallena7/plugins/mem.pl</path>
-			<interval>1</interval>
-			<timeout_sec>1</timeout_sec>
+			<path>/home/catallena7/workspace/Metheus-Agent/plugins/mem.pl</path>
+			<interval_sec>60</interval_sec>
+			<timeout_sec>2</timeout_sec>
 			<columns>
 				<column name="MemTotal">
 					<type name="MemTotal">float</type>
@@ -75,9 +75,9 @@
 			</columns>
 		</plugin>
 		<plugin name="disk">
-			<path>/home/catallena7/plugins/disk.pl</path>
-			<interval>1</interval>
-			<timeout_sec>1</timeout_sec>
+			<path>/home/catallena7/workspace/Metheus-Agent/plugins/disk.pl</path>
+			<interval_sec>300</interval_sec>
+			<timeout_sec>2</timeout_sec>
 			<columns>
 				<column name="dev_name">
 					<type name="dev_name">varchar(15)</type>
@@ -94,9 +94,9 @@
 			</columns>
 		</plugin>
 		<plugin name="disk_IO">
-			<path>/home/catallena7/plugins/diskIO.pl</path>
-			<interval>1</interval>
-			<timeout_sec>1</timeout_sec>
+			<path>/home/catallena7/workspace/Metheus-Agent/plugins/diskIO.pl</path>
+			<interval_sec>60</interval_sec>
+			<timeout_sec>2</timeout_sec>
 			<columns>
 				<column name="dev_name">
 					<type name="dev_name">varchar(15)</type>
@@ -119,9 +119,9 @@
 			</columns>
 		</plugin>
 		<plugin name="network_IO">
-			<path>/home/catallena7/plugins/network.pl</path>
-			<interval>1</interval>
-			<timeout_sec>1</timeout_sec>
+			<path>/home/catallena7/workspace/Metheus-Agent/plugins/network.pl</path>
+			<interval_sec>60</interval_sec>
+			<timeout_sec>2</timeout_sec>
 			<columns>
 				<column name="dev_name">
 					<type name="dev_name">varchar(10)</type>
@@ -159,9 +159,9 @@
 			</columns>
 		</plugin>
 		<plugin name="process_cpuinfo">
-			<path>/home/catallena7/plugins/top10cpu.pl</path>
-			<interval>1</interval>
-			<timeout_sec>1</timeout_sec>
+			<path>/home/catallena7/workspace/Metheus-Agent/plugins/top10cpu.pl</path>
+			<interval_sec>60</interval_sec>
+			<timeout_sec>2</timeout_sec>
 			<columns>
 				<column name="user_name">
 					<type name="user_name">varchar(30)</type>
@@ -193,9 +193,9 @@
 			</columns>
 		</plugin>
 		<plugin name="process_meminfo">
-			<path>/home/catallena7/plugins/top10mem.pl</path>
-			<interval>1</interval>
-			<timeout_sec>1</timeout_sec>
+			<path>/home/catallena7/workspace/Metheus-Agent/plugins/top10mem.pl</path>
+			<interval_sec>60</interval_sec>
+			<timeout_sec>2</timeout_sec>
 			<columns>
 				<column name="user_name">
 					<type name="user_name">varchar(30)</type>
@@ -225,11 +225,11 @@
 					<type name="cmd">varchar(100)</type>
 				</column>
 			</columns>
-		</plugin>
+		</plugin> -->
 		<plugin name="process_mon">
-			<path>/home/catallena7/plugins/process_mon.pl</path>
-			<interval>1</interval>
-			<timeout_sec>1</timeout_sec>
+			<path>/home/catallena7/workspace/Metheus-Agent/plugins/process_mon.pl</path>
+			<interval_sec>60</interval_sec>
+			<timeout_sec>2</timeout_sec>
 			<columns>
 				<column name="user_name">
 					<type name="user_name">varchar(30)</type>
@@ -261,9 +261,9 @@
 			</columns>
 		</plugin>
 		<plugin name="total_process">
-			<path>/home/catallena7/plugins/numOfProcess.pl</path>
-			<interval>1</interval>
-			<timeout_sec>1</timeout_sec>
+			<path>/home/catallena7/workspace/Metheus-Agent/plugins/numOfProcess.pl</path>
+			<interval_sec>300</interval_sec>
+			<timeout_sec>2</timeout_sec>
 			<columns>
 				<column name="No_of_process">
 					<type name="No_of_process">float</type>
@@ -271,9 +271,9 @@
 			</columns>
 		</plugin>
 		<plugin name="NFS">
-			<path>/home/catallena7/plugins/nfs.pl</path>
-			<interval>1</interval>
-			<timeout_sec>1</timeout_sec>
+			<path>/home/catallena7/workspace/Metheus-Agent/plugins/nfs.pl</path>
+			<interval_sec>60</interval_sec>
+			<timeout_sec>2</timeout_sec>
 			<columns>
 				<column name="user_id">
 					<type name="user_id">varchar(30)</type>
@@ -290,9 +290,9 @@
 			</columns>
 		</plugin>
 		<plugin name="agent_dbsize">
-			<path>/home/catallena7/plugins/diskFull.pl</path>
-			<interval>1</interval>
-			<timeout_sec>1</timeout_sec>
+			<path>/home/catallena7/workspace/Metheus-Agent/plugins/diskFull.pl</path>
+			<interval_sec>300</interval_sec>
+			<timeout_sec>2</timeout_sec>
 			<columns>
 				<column name="usedP">
 					<type name="usedP">float</type>

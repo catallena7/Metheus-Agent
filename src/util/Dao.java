@@ -354,7 +354,7 @@ public class Dao {
 			int i = 0;
 			for (String line : outputLines) {
 				StringBuffer sbCurKeyCheck = new StringBuffer("");
-				if (line.contains("::")) {
+				if (line.contains("::") && !line.startsWith("ERROR_CODE")) {
 					if (i > 0) {
 						sbFront = new StringBuffer("");
 						sbBack = new StringBuffer(" ,");
@@ -406,21 +406,13 @@ public class Dao {
 					sbBack.append(") ");
 					strSql = strSql + sbFront.append(sbBack).toString();
 				}
-				if (i > 0
-						&& !(sbKeyOri.toString().matches(sbCurKeyCheck
-								.toString()))) {
-					LOG.error("key/value skipped \nori:" + sbKeyOri
-							+ "!=\ncur:" + sbCurKeyCheck);
-					continue;
-				}
-				if (line.contains("ERROR") || line.contains("Error")
-						|| line.contains("error")) {
+				if (line.contains("::") && line.startsWith("ERROR_CODE")) {
 					HashMap<String, String> errorData = new HashMap<String, String>();
-					String[] errKVitems = line.split(",");
+					String[] errKVitems = line.split(",,");
 					for (String errKVitem : errKVitems) {
 						// Sample:
-						// "ERROR_CODE:CPULOAD02,MESSAGE:no file error,SEVERITY:FATAL\n"
-						String errKVPairs[] = errKVitem.split(":");
+						// "ERROR_CODE::CPULOAD02,,MESSAGE::no file error,,SEVERITY::FATAL\n"
+						String errKVPairs[] = errKVitem.split("::");
 						if (errKVPairs.length >= 2) {
 							if (errKVPairs[0].matches("ERROR_CODE")
 									|| errKVPairs[0].matches("SEVERITY")
@@ -448,6 +440,16 @@ public class Dao {
 						LOG.error("message is " + line);
 						this.insertEvent(conn, "NOCODE", "NO", line);
 					}
+				}
+				if (i > 0
+						&& !(sbKeyOri.toString().matches(sbCurKeyCheck
+								.toString()))) {
+					// column name consistency check for multiple stdOut like
+					// nfs.pl
+					LOG.error("key/value skipped");
+					LOG.error("ori_key:" + sbKeyOri);
+					LOG.error("cur_key:" + sbCurKeyCheck);
+					continue;
 				}
 				if (line.contains("::")) {
 					i++;

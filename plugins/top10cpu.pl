@@ -20,7 +20,7 @@ sub main(){
 		$cpu_metrics{"elapsed_time"}=$items[6];
 		$cpu_metrics{"priority"}=$items[7];
 		$cpu_metrics{"cmd"}="";
-		for (my $j=7;$j<=$#items;$j++){
+		for (my $j=8;$j<=$#items;$j++){
 			$cpu_metrics{"cmd"}=$cpu_metrics{"cmd"}.$items[$j]." ";
 		}
 		$cpu_metrics{"cmd"}=substr ($cpu_metrics{"cmd"},0,100);

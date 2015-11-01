@@ -16,16 +16,17 @@ import util.Dao;
 
 public class Agent {
 	private static final Logger LOG = LogManager.getLogger(Agent.class);
-	private long interval = 60000L;
-	public static String VERSION = "1.0.1";
+	private static long intervalMSec = 60000L;
+	public static String VERSION = "1.0.2";
 
-	public long getInterval() {
-		return interval;
+	public long getIntervalMsec() {
+		return intervalMSec;
 	}
 
-	public void setInterval(long interval) {
-		LOG.info("Interval="+interval);
-		this.interval = interval;
+	@SuppressWarnings("static-access")
+	public void setIntervalSec(long intervalSec) {
+		LOG.info("IntervalSec=" + intervalSec);
+		this.intervalMSec = intervalSec * 1000L;
 	}
 
 	public void init(Conf cf, String[] args) {
@@ -45,14 +46,12 @@ public class Agent {
 			e = e.getNextException();
 		}
 	}
-	
-	
+
 	public static void main(String[] args) {
 		Conf cf = new Conf();
 		Agent agent = new Agent();
-		long interval=agent.getInterval();
 		agent.init(cf, args);
-		agent.setInterval(cf.getSinglefValue("running_interval_second")*1000L);
+		agent.setIntervalSec(cf.getSinglefValue("running_interval_second"));
 		Dao dao = new Dao();
 		Connection conn = null;
 		Properties props = new Properties();
@@ -93,11 +92,11 @@ public class Agent {
 				dao.setLastUpdateTime(conn);
 				now = new DateTime();
 				epNow = now.getMillis();
-				norTime = epNow - epNow % interval;
-				pe.runPlugins(norTime,interval);
+				norTime = epNow - epNow % intervalMSec;
+				pe.runPlugins(norTime);
 				now = new DateTime();
 				epNow = now.getMillis();
-				sleepTime = interval - epNow % interval;
+				sleepTime = intervalMSec - epNow % intervalMSec;
 				norTime = epNow - sleepTime;
 				if (loopCnt >= 1440 || loopCnt == 0) {
 					dao.deleteData(conn, cf, keepdays);

@@ -80,7 +80,7 @@ public class PluginExecutor {
 		}
 	}
 
-	public void runPlugins(Long norTime,Long interval) {
+	public void runPlugins(Long norTime) {
 		if (pgPathIntv.isEmpty()) {
 			LOG.error("please check your configuration xml, there is no plugins information");
 			System.exit(1);
@@ -88,9 +88,10 @@ public class PluginExecutor {
 		String removeKey = null;
 		for (String key : pgPathIntv.keySet()) {
 			LOG.trace(key + " " + pgPathIntv.get(key));
-			if (norTime % (pgPathIntv.get(key) * interval) == 0) {
-				LOG.trace("1:" + norTime + " " + pgPathIntv.get(key));
-				LOG.trace("time to run" + key);
+			if (norTime % (pgPathIntv.get(key) * 1000L) == 0) {
+				LOG.debug("run:" + norTime + " % " + pgPathIntv.get(key)
+						* 1000L);
+				LOG.debug("run:" + key);
 				if (runPluginCommonExec(key, pgPluginTable.get(key),
 						pgPluginTimeout.get(key)) == false) {
 					LOG.error("Execution error");
@@ -110,8 +111,9 @@ public class PluginExecutor {
 					pgPluginErrorCnt.remove(key);
 				}
 			} else {
-				LOG.trace("2:" + norTime + " " + pgPathIntv.get(key));
-				LOG.trace("skipped    " + key);
+				LOG.debug("skipped:" + norTime + " % " + pgPathIntv.get(key)
+						* 1000L);
+				LOG.debug("skipped:" + key);
 			}
 		}
 		if (removeKey != null) {

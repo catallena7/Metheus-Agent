@@ -18,7 +18,7 @@ sub array_to_file{
 }
 
 sub getOldData{
-	open FHR,"<$OLD_DATA_FILE" or die("ERROR_CODE:NETWORK00,SEVERITY:ERROR,MESSAGE:No file $OLD_DATA_FILE\n");
+	open FHR,"<$OLD_DATA_FILE" or die("ERROR_CODE::NETWORK00,,SEVERITY::ERROR,,MESSAGE::No file $OLD_DATA_FILE\n");
 	my $line;
 	my %oldMetrics;
 	while ($line = <FHR>){
@@ -35,7 +35,7 @@ sub getOldData{
 
 sub main(){
 	my %metrics;
-	open FH ,"<$ORI_DATA_FILE" or die ("ERROR_CODE:NETWORK1");
+	open FH ,"<$ORI_DATA_FILE" or die ("ERROR_CODE::NETWORK1");
 	my $line;
 	$metrics{"time"}=time();
 	my %oldData;
@@ -44,7 +44,7 @@ sub main(){
 		my %oldData=getOldData();
 		$secs=$metrics{"time"}-$oldData{"time"};
 	}else{
-		print("ERROR_CODE:NETWORK00,SEVERITY:ERROR,MESSAGE:No file $OLD_DATA_FILE\n");
+		print("ERROR_CODE::NETWORK00,,SEVERITY::ERROR,,MESSAGE::No file $OLD_DATA_FILE\n");
 	}
 	while ($line = <FH>){
 		if ($line =~m/\s+(eth\d+):/){

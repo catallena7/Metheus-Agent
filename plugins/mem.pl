@@ -5,7 +5,7 @@ my $ORI_DATA_FILE="/proc/meminfo";
 
 sub main(){
 
-	open FH,"<$ORI_DATA_FILE" or die("ERROR_CODE_MEM1");
+	open FH,"<$ORI_DATA_FILE" or die("ERROR_CODE::MEM00");
 	my $line;
 	my %metrics;
 	while ($line=<FH>){
@@ -30,11 +30,11 @@ sub main(){
 	}
 	my $usedSwapP=sprintf ("%.2f",100-$metrics{"SwapFree"}/$metrics{"SwapTotal"}*100);
 	if ($usedSwapP>=60){
-		print ("ERROR_CODE:MEM00,SEVERITY:WARN,MESSAGE:Swap space used $usedSwapP%\n");
+		print ("ERROR_CODE::MEM01,,SEVERITY::WARN,,MESSAGE::Swap space used $usedSwapP%\n");
 	}elsif ($usedSwapP>=95){
-		print ("ERROR_CODE:MEM00,SEVERITY:ERROR,MESSAGE:Swap space used $usedSwapP%\n");
+		print ("ERROR_CODE::MEM02,,SEVERITY::ERROR,,MESSAGE::Swap space used $usedSwapP%\n");
 	}elsif ($usedSwapP>=99){
-		print ("ERROR_CODE:MEM00,SEVERITY:FATAL,MESSAGE:Swap space used $usedSwapP%\n");
+		print ("ERROR_CODE::MEM03,,SEVERITY::FATAL,,MESSAGE::Swap space used $usedSwapP%\n");
 	}
 	my $key;
 	my $value;

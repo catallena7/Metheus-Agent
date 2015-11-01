@@ -4,9 +4,8 @@ my $ORI_DATA_FILE="/proc/loadavg";
 #df -l -P
 # iostat -d -k:
 #proc/net/dev
-
 sub main(){
-	open FH,"<$ORI_DATA_FILE" or print("ERROR_CODE:CPULOAD1,SEVERITY:ERROR,MESSAGE:No file\n");
+	open FH,"<$ORI_DATA_FILE" or die("ERROR_CODE::CPULOAD1,,SEVERITY::ERROR,,MESSAGE::No file\n");
 	my $line;
 	my %metrics;
 	my $retStr="";

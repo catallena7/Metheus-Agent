@@ -4,7 +4,7 @@ my $ORI_DATA_FILE="/proc/stat";
 
 sub main(){
 
-	open FH,"<$ORI_DATA_FILE" or die("ERROR_CODE:CPU1");
+	open FH,"<$ORI_DATA_FILE" or die("ERROR_CODE::CPU1");
 	my $line;
 	my %metrics;
 	while ($line=<FH>){

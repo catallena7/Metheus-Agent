@@ -21,7 +21,7 @@ sub getOldDataInMem($){
 		return %OLD_DATA;
 	}
 
-	open FHD,"<$fileName" or die ("ERROR_CODE:NFS3");
+	open FHD,"<$fileName" or die ("ERROR_CODE::NFS3");
 	my $line;
 	while ($line=<FHD>){
 		my ($key,$value)=split /,,/,$line;
@@ -44,10 +44,10 @@ sub main(){
 	if (-e $TEMP_DATA_FILE){
 		%OldData=getOldDataInMem($TEMP_DATA_FILE);
 	}else{
-		print("ERROR_CODE:NFS01,SEVERITY:ERROR,MESSAGE:No temp file $TEMP_DATA_FILE\n");
+		print("ERROR_CODE::NFS01,,SEVERITY::ERROR,,MESSAGE::No temp file $TEMP_DATA_FILE\n");
 	}
 
-	open FH,"<$ORI_DATA_FILE" or die("ERROR_CODE:NFS2");
+	open FH,"<$ORI_DATA_FILE" or die("ERROR_CODE::NFS2");
 	my $line;
 	my $line_cnt=0;
 	my $filer="";

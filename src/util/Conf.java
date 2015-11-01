@@ -151,7 +151,7 @@ public class Conf {
 						+ "']/path";
 				String path = xpath.compile(expression).evaluate(document);
 				expression = "//plugins/plugin[@name='" + pluginName
-						+ "']/interval";
+						+ "']/interval_sec";
 				int interval = Integer.parseInt((xpath.compile(expression)
 						.evaluate(document)));
 				pgPthIntv.put(path, interval);
