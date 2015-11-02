@@ -300,7 +300,7 @@
 			</columns>
 		</plugin>
 		<plugin name="syslog">
-			<path>/home/catallena7/workspace/Agent/plugins/syslog.pl</path>
+			<path>//home/catallena7/workspace/Metheus-Agent/plugins/syslog.pl</path>
 			<interval_sec>60</interval_sec>
 			<timeout_sec>2</timeout_sec>
 			<columns>
@@ -314,6 +314,19 @@
 					<type name="log_epktime">float</type>
 				</column>
 			</columns>
-		</plugin> 
+		</plugin>
+		<plugin name="dir_usage">
+			<path>/home/catallena7/workspace/Metheus-Agent/plugins/du.pl</path>
+			<interval_sec>60</interval_sec>
+			<timeout_sec>10</timeout_sec>
+			<columns>
+				<column name="dir">
+					<type name="dir">varchar(1024)</type>
+				</column>
+				<column name="kbytes">
+					<type name="kbytes">float</type>
+				</column>
+			</columns>
+		</plugin>  
 	</plugins>
 </agent>

@@ -21,7 +21,7 @@ sub getOldData{
 	my $err_flag=0;
 	open FHR,"<$OLD_DATA_FILE" or $err_flag=1;
 	if ($err_flag==1){
-		print("ERROR_CODE::NETWORK00,,SEVERITY::ERROR,,MESSAGE::Can not open $OLD_DATA_FILE file\n");
+		print("ERROR_CODE::NETWORK000,,SEVERITY::ERROR,,MESSAGE::Can not open $OLD_DATA_FILE file\n");
 		exit(0);
 	}
 	my $line;
@@ -43,7 +43,7 @@ sub main(){
 	my $err_flag=0;
 	open FH ,"<$ORI_DATA_FILE" or $err_flag=1;
 	if ($err_flag==1){
-		print("ERROR_CODE::NETWORK01,,SEVERITY::ERROR,,MESSAGE::No $ORI_DATA_FILE file\n");
+		print("ERROR_CODE::NETWORK001,,SEVERITY::ERROR,,MESSAGE::No $ORI_DATA_FILE file\n");
 		exit(0);
 	}
 	my $line;
@@ -54,7 +54,7 @@ sub main(){
 		my %oldData=getOldData();
 		$secs=$metrics{"time"}-$oldData{"time"};
 	}else{
-		print("ERROR_CODE::NETWORK02,,SEVERITY::ERROR,,MESSAGE::No $OLD_DATA_FILE file\n");
+		print("ERROR_CODE::NETWORK002,,SEVERITY::ERROR,,MESSAGE::No $OLD_DATA_FILE file\n");
 	}
 	while ($line = <FH>){
 		if ($line =~m/\s+(eth\d+):/){

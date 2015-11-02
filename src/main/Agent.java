@@ -17,7 +17,7 @@ import util.Dao;
 public class Agent {
 	private static final Logger LOG = LogManager.getLogger(Agent.class);
 	private static long intervalMSec = 60000L;
-	public static String VERSION = "1.0.3";
+	public static String VERSION = "1.0.4";
 
 	@SuppressWarnings("static-access")
 	public void setIntervalSec(long intervalSec) {
@@ -77,7 +77,7 @@ public class Agent {
 			pe.setPluginRunLimit(cf
 					.getSinglefValue("plguin_running_error_limit"));
 			int loopCnt = 0;
-			dao.insertEvent(conn, "AG000", "INFO", "Agent was started");
+			dao.insertEvent(conn, "AGENT000", "INFO", "Agent was started");
 			while (true) {
 				if (dao.isUpdated(conn)) {
 					LOG.error("Agent configuration updated - need to start for apply");

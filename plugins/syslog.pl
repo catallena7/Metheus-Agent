@@ -24,7 +24,7 @@ sub getOldEpkTime($){
 	my $err_flag=0;
 	open FHR,"<$oldData" or $err_flag=1;
 	if ($err_flag==1){
-		print("ERROR_CODE::SYSLOG00,,SEVERITY::ERROR,,MESSAGE::Can not open $oldData file\n");
+		print("ERROR_CODE::SYSLOG000,,SEVERITY::ERROR,,MESSAGE::Can not open $oldData file\n");
 	}
 	my $line;
 	my $value=1;
@@ -73,7 +73,7 @@ sub main(){
 		my $err_flag=0;
 		open FH,"<$logFile" or $err_flag=1;
 		if ($err_flag==1){
-			print("ERROR_CODE::SYSLOG01,,SEVERITY::ERROR,,MESSAGE::Can not open $logFile file\n");
+			print("ERROR_CODE::SYSLOG001,,SEVERITY::ERROR,,MESSAGE::Can not open $logFile file\n");
 			next;
 		}
 		my $line;

@@ -23,7 +23,7 @@ sub getOldDataInMem($){
 	my $err_flag=0;
 	open FHD,"<$fileName" or $err_flag=1;
 	if ($err_flag==1){
-		print("ERROR_CODE::NFS00,,SEVERITY::ERROR,,MESSAGE::Can not Open $ORI_DATA_FILE file\n");
+		print("ERROR_CODE::NFS000,,SEVERITY::ERROR,,MESSAGE::Can not Open $ORI_DATA_FILE file\n");
 		exit(0);
 	}
 	my $line;
@@ -48,12 +48,12 @@ sub main(){
 	if (-e $TEMP_DATA_FILE){
 		%OldData=getOldDataInMem($TEMP_DATA_FILE);
 	}else{
-		print("ERROR_CODE::NFS01,,SEVERITY::ERROR,,MESSAGE::No temp file $TEMP_DATA_FILE\n");
+		print("ERROR_CODE::NFS001,,SEVERITY::ERROR,,MESSAGE::No temp file $TEMP_DATA_FILE\n");
 	}
 	my $err_flag=0;
 	open FH,"<$ORI_DATA_FILE"  or $err_flag=1;
 	if ($err_flag==1){
-		print("ERROR_CODE::NFS02,,SEVERITY::ERROR,,MESSAGE::No $ORI_DATA_FILE file\n");
+		print("ERROR_CODE::NFS002,,SEVERITY::ERROR,,MESSAGE::No $ORI_DATA_FILE file\n");
 		exit(0);
 	}
 	my $line;

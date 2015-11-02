@@ -17,7 +17,7 @@ sub main(){
 			$metrics{"usedP"}=$items[4];
 			$metrics{"usedP"}=~s/%//g;
 			if ($metrics{"usedP"}  > $Threshold){
-				print("ERROR_CODE::DISKFull00,,SEVERITY::FATAL,,MESSAGE::$dir Disk usedP is $items[4]. limit $Threshold%\n");
+				print("ERROR_CODE::DISKFull000,,SEVERITY::FATAL,,MESSAGE::$dir Disk usedP is $items[4]. limit $Threshold%\n");
 			}
 		}
 	}

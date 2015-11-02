@@ -32,13 +32,13 @@ sub main(){
 			if ($pcpu >20 && $metrics{"elapsed_time"}=~m/\d+\-/){
 				my $pid_str=$metrics{"pid"};
 				my $cmd_str=$metrics{"cmd"};
-				print ("ERROR_CODE::AGENT_CPU0,,SEVERITY::FATAL,,MESSAGE::PID:$pid_str($cmd_str) CPU usage is $pcpu%\n");
+				print ("ERROR_CODE::AGENT_CPU000,,SEVERITY::FATAL,,MESSAGE::PID:$pid_str($cmd_str) CPU usage is $pcpu%\n");
 			}
 			my $rss=$metrics{"rss"};
 			if ($rss >1000000 && $metrics{"elapsed_time"}=~m/\d+\-/){
 				my $pid_str=$metrics{"pid"};
 				my $cmd_str=$metrics{"cmd"};
-				print ("ERROR_CODE::AGENT_MEM0,,SEVERITY::WARN,,MESSAGE::PID:$pid_str($cmd_str) MEM usage is $rss KBytes\n");
+				print ("ERROR_CODE::AGENT_MEM000,,SEVERITY::WARN,,MESSAGE::PID:$pid_str($cmd_str) MEM usage is $rss KBytes\n");
 			}
 			my $key;
 			my $value;

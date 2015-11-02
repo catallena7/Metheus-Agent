@@ -6,7 +6,7 @@ sub main(){
 	my $err_flag=0;
 	open FH,"<$ORI_DATA_FILE" or $err_flag=1;
 	if ($err_flag==1){
-		print("ERROR_CODE::CPU00,,SEVERITY::ERROR,,MESSAGE::No proc avg file\n");
+		print("ERROR_CODE::CPU000,,SEVERITY::ERROR,,MESSAGE::No proc avg file\n");
 		exit(0);
 	}
 	my $line;
