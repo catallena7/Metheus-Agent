@@ -4,8 +4,12 @@ my $ORI_DATA_FILE="/proc/meminfo";
 
 
 sub main(){
-
-	open FH,"<$ORI_DATA_FILE" or die("ERROR_CODE::MEM00");
+	my $err_flag=0;
+	open FH,"<$ORI_DATA_FILE" or $err_flag=1;
+	if ($err_flag==1){
+		print("ERROR_CODE::MEM00,,SEVERITY::ERROR,,MESSAGE::No proc mem info\n");
+		exit(0);
+	}
 	my $line;
 	my %metrics;
 	while ($line=<FH>){

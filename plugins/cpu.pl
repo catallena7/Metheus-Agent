@@ -3,8 +3,12 @@ use strict;
 my $ORI_DATA_FILE="/proc/stat";
 
 sub main(){
-
-	open FH,"<$ORI_DATA_FILE" or die("ERROR_CODE::CPU1");
+	my $err_flag=0;
+	open FH,"<$ORI_DATA_FILE" or $err_flag=1;
+	if ($err_flag==1){
+		print("ERROR_CODE::CPU00,,SEVERITY::ERROR,,MESSAGE::No proc avg file\n");
+		exit(0);
+	}
 	my $line;
 	my %metrics;
 	while ($line=<FH>){

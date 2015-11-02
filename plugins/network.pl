@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 my $ORI_DATA_FILE="/proc/net/dev";
-my $OLD_DATA_FILE="/home/".$ENV{"USER"}."/network.ini";
+my $OLD_DATA_FILE="/home/".$ENV{"USER"}."/network.dat";
 
 
 my @out_content;
@@ -18,7 +18,12 @@ sub array_to_file{
 }
 
 sub getOldData{
-	open FHR,"<$OLD_DATA_FILE" or die("ERROR_CODE::NETWORK00,,SEVERITY::ERROR,,MESSAGE::No file $OLD_DATA_FILE\n");
+	my $err_flag=0;
+	open FHR,"<$OLD_DATA_FILE" or $err_flag=1;
+	if ($err_flag==1){
+		print("ERROR_CODE::NETWORK00,,SEVERITY::ERROR,,MESSAGE::Can not open $OLD_DATA_FILE file\n");
+		exit(0);
+	}
 	my $line;
 	my %oldMetrics;
 	while ($line = <FHR>){
@@ -35,7 +40,12 @@ sub getOldData{
 
 sub main(){
 	my %metrics;
-	open FH ,"<$ORI_DATA_FILE" or die ("ERROR_CODE::NETWORK1");
+	my $err_flag=0;
+	open FH ,"<$ORI_DATA_FILE" or $err_flag=1;
+	if ($err_flag==1){
+		print("ERROR_CODE::NETWORK01,,SEVERITY::ERROR,,MESSAGE::No $ORI_DATA_FILE file\n");
+		exit(0);
+	}
 	my $line;
 	$metrics{"time"}=time();
 	my %oldData;
@@ -44,7 +54,7 @@ sub main(){
 		my %oldData=getOldData();
 		$secs=$metrics{"time"}-$oldData{"time"};
 	}else{
-		print("ERROR_CODE::NETWORK00,,SEVERITY::ERROR,,MESSAGE::No file $OLD_DATA_FILE\n");
+		print("ERROR_CODE::NETWORK02,,SEVERITY::ERROR,,MESSAGE::No $OLD_DATA_FILE file\n");
 	}
 	while ($line = <FH>){
 		if ($line =~m/\s+(eth\d+):/){

@@ -1,11 +1,14 @@
 #!/usr/bin/perl
 use strict;
-my $ORI_DATA_FILE="/proc/loadavg";
-#df -l -P
-# iostat -d -k:
-#proc/net/dev
+my $ORI_DATA_FILE="/proc/loadavg2";
+
 sub main(){
-	open FH,"<$ORI_DATA_FILE" or die("ERROR_CODE::CPULOAD1,,SEVERITY::ERROR,,MESSAGE::No file\n");
+	my $err_flag=0;
+	open FH,"<$ORI_DATA_FILE" or $err_flag=1;
+	if ($err_flag==1){
+		print("ERROR_CODE::CPULOAD1,,SEVERITY::ERROR,,MESSAGE::No load avg file\n");
+		exit(0);
+	}
 	my $line;
 	my %metrics;
 	my $retStr="";

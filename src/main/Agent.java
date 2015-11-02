@@ -17,11 +17,7 @@ import util.Dao;
 public class Agent {
 	private static final Logger LOG = LogManager.getLogger(Agent.class);
 	private static long intervalMSec = 60000L;
-	public static String VERSION = "1.0.2";
-
-	public long getIntervalMsec() {
-		return intervalMSec;
-	}
+	public static String VERSION = "1.0.3";
 
 	@SuppressWarnings("static-access")
 	public void setIntervalSec(long intervalSec) {

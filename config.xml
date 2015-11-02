@@ -299,5 +299,21 @@
 				</column>
 			</columns>
 		</plugin>
+		<plugin name="syslog">
+			<path>/home/catallena7/workspace/Agent/plugins/syslog.pl</path>
+			<interval_sec>60</interval_sec>
+			<timeout_sec>2</timeout_sec>
+			<columns>
+				<column name="file">
+					<type name="file">varchar(1024)</type>
+				</column>
+				<column name="contents">
+					<type name="contents">varchar(1024)</type>
+				</column>
+				<column name="log_epktime">
+					<type name="log_epktime">float</type>
+				</column>
+			</columns>
+		</plugin> 
 	</plugins>
 </agent>

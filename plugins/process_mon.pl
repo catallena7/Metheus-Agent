@@ -38,7 +38,7 @@ sub main(){
 			if ($rss >1000000 && $metrics{"elapsed_time"}=~m/\d+\-/){
 				my $pid_str=$metrics{"pid"};
 				my $cmd_str=$metrics{"cmd"};
-				print ("ERROR_CODE::AGENT_MEM0,,SEVERITY::WARN,,MESSAGE::PID:$pid_str($cmd_str) Process MEM usage is $rss KBytes\n");
+				print ("ERROR_CODE::AGENT_MEM0,,SEVERITY::WARN,,MESSAGE::PID:$pid_str($cmd_str) MEM usage is $rss KBytes\n");
 			}
 			my $key;
 			my $value;
