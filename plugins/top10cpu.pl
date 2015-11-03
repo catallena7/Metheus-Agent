@@ -1,8 +1,7 @@
 #!/usr/bin/perl
 use strict;
-my @ORI_CPU_DATA_FILE=`ps a -w --no-heading -o user,pid,ppid,pcpu,rss,vsz,time,pri,cmd --sort -pcpu`;
-
-
+my @ORI_CPU_DATA_FILE=`ps -A -w --no-heading -o user,pid,ppid,pcpu,pmem,rss,vsz,time,pri,cmd --sort -pcpu`;
+my $BASE_PCPU=25;#This script will display only 25% over CPU process info 
 
 sub main(){
 
@@ -15,12 +14,17 @@ sub main(){
 		$cpu_metrics{"pid"}=$items[1];
 		$cpu_metrics{"ppid"}=$items[2];
 		$cpu_metrics{"pcpu"}=$items[3];
-		$cpu_metrics{"rss"}=$items[4];
-		$cpu_metrics{"vsz"}=$items[5];
-		$cpu_metrics{"elapsed_time"}=$items[6];
-		$cpu_metrics{"priority"}=$items[7];
+		if ($cpu_metrics{"pcpu"}<$BASE_PCPU){
+			last;
+		}
+		$cpu_metrics{"pcpu"}=$items[4];
+		$cpu_metrics{"rss"}=$items[5];
+		$cpu_metrics{"vsz"}=$items[6];
+		$cpu_metrics{"elapsed_time"}=$items[7];
+		$cpu_metrics{"priority"}=$items[8];
 		$cpu_metrics{"cmd"}="";
-		for (my $j=8;$j<=$#items;$j++){
+
+		for (my $j=9;$j<=$#items;$j++){
 			$cpu_metrics{"cmd"}=$cpu_metrics{"cmd"}.$items[$j]." ";
 		}
 		$cpu_metrics{"cmd"}=substr ($cpu_metrics{"cmd"},0,100);

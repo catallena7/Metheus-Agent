@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
-my @ORI_MEM_DATA_FILE=`ps a -w --no-heading -o user,pid,ppid,pcpu,rss,vsz,time,pri,cmd --sort -rss`;
-
+my @ORI_MEM_DATA_FILE=`ps -A -w --no-heading -o user,pid,ppid,pcpu,pmem,rss,vsz,time,pri,cmd --sort -rss`;
+my $BASE_RSS=10;#This script will display only 10% over memory usage process info 
 
 sub main(){
 
@@ -14,12 +14,16 @@ sub main(){
 		$mem_metrics{"pid"}=$items[1];
 		$mem_metrics{"ppid"}=$items[2];
 		$mem_metrics{"pcpu"}=$items[3];
-		$mem_metrics{"rss"}=$items[4];
-		$mem_metrics{"vsz"}=$items[5];
-		$mem_metrics{"elapsed_time"}=$items[6];
-		$mem_metrics{"priority"}=$items[7];
+		$mem_metrics{"pmem"}=$items[4];
+		if ($mem_metrics{"pmem"}<$BASE_RSS){
+			last;
+		}
+		$mem_metrics{"rss"}=$items[5];
+		$mem_metrics{"vsz"}=$items[6];
+		$mem_metrics{"elapsed_time"}=$items[7];
+		$mem_metrics{"priority"}=$items[8];
 		$mem_metrics{"cmd"}="";
-		for (my $j=8;$j<=$#items;$j++){
+		for (my $j=9;$j<=$#items;$j++){
 			$mem_metrics{"cmd"}=$mem_metrics{"cmd"}.$items[$j]." ";
 		}
 		$mem_metrics{"cmd"}=substr ($mem_metrics{"cmd"},0,100);

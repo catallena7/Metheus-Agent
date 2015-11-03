@@ -1,8 +1,5 @@
 #!/usr/bin/perl
 use strict;
-use Cwd;
-use File::stat;
-use File::Spec;
 use Date::Parse;
         
 #WARNING:please check file permission before running this script
