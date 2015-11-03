@@ -66,7 +66,7 @@ public class Dao {
 							+ " table is already exist");
 					rsColumns = st.executeQuery("Select TABLENAME,COLUMNNAME "
 							+ "FROM sys.systables t, sys.syscolumns "
-							+ "WHERE TABLEID = REFERENCEID and tablename ='"
+							+ "WHERE TABLEID = REFERENCEID AND TABLENAME ='"
 							+ table.toUpperCase() + "'");
 					while (rsColumns.next()) {
 						LOG.trace(rsColumns.getString(1) + ":"
@@ -74,7 +74,7 @@ public class Dao {
 					}
 					conn.commit();
 				} else {
-					String SQL = "create table " + table + "(time TIMESTAMP ";
+					String SQL = "CREATE TABLE " + table + "(TIME TIMESTAMP ";
 					if (columnMap.isEmpty()) {
 						LOG.error("Please check your configuration xml, there is no table "
 								+ "information about the " + table);
@@ -98,9 +98,9 @@ public class Dao {
 			if (rsMeta.next()) {
 				LOG.trace(rsMeta.getString("TABLE_NAME")
 						+ " table is already exist");
-				rsColumns = st.executeQuery("Select TABLENAME,COLUMNNAME "
+				rsColumns = st.executeQuery("SELECT TABLENAME,COLUMNNAME "
 						+ "FROM sys.systables t, sys.syscolumns "
-						+ "WHERE TABLEID = REFERENCEID and tablename ='"
+						+ "WHERE TABLEID = REFERENCEID AND TABLENAME ='"
 						+ table.toUpperCase() + "'");
 				while (rsColumns.next()) {
 					LOG.trace(rsColumns.getString(1) + ":"
@@ -110,8 +110,8 @@ public class Dao {
 			} else {
 				String SQL = "create table "
 						+ table
-						+ " (ID INT,LAST_UPDATED_TIMESTAMP TIMESTAMP, RESTART_FLAG INT, "
-						+ "AGENT_START_TIMESTAMP TIMESTAMP, LAST_SENT_EVENT_ID INT, "
+						+ " (ID INTEGER,LAST_UPDATED_TIMESTAMP TIMESTAMP, RESTART_FLAG INT, "
+						+ "AGENT_START_TIMESTAMP TIMESTAMP, LAST_SENT_EVENT_ID BIGINT, "
 						+ "AGENT_VERSION VARCHAR(10), DISTRO_VERSION VARCHAR(100), KERNEL_VERSION VARCHAR(100), "
 						+ "NO_OF_PROCESSOR INT, PROCESSOR_MODEL VARCHAR(100))";
 				LOG.trace(SQL);
@@ -123,9 +123,9 @@ public class Dao {
 			if (rsMeta.next()) {
 				LOG.trace(rsMeta.getString("TABLE_NAME")
 						+ " table is already exist");
-				rsColumns = st.executeQuery("Select TABLENAME,COLUMNNAME "
+				rsColumns = st.executeQuery("SELECT TABLENAME,COLUMNNAME "
 						+ "FROM sys.systables t, sys.syscolumns "
-						+ "WHERE TABLEID = REFERENCEID and tablename ='"
+						+ "WHERE TABLEID = REFERENCEID AND TABLENAME='"
 						+ EventTable + "'");
 				while (rsColumns.next()) {
 					LOG.trace(rsColumns.getString(1) + ":"
@@ -135,9 +135,9 @@ public class Dao {
 			} else {
 				String SQL = "create table "
 						+ EventTable
-						+ "(id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)"
-						+ ",event_code varchar(20), severity varchar(10), message varchar(500), "
-						+ "time TIMESTAMP,CONSTRAINT primary_key PRIMARY KEY (id))";
+						+ "(ID BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)"
+						+ ",EVENT_CODE VARCHAR(20), SEVERITY VARCHAR(10), MESSAGE VARCHAR(1024), "
+						+ "TIME TIMESTAMP,CONSTRAINT PRIMARY_KEY PRIMARY KEY (ID))";
 				LOG.trace(SQL);
 				st.execute(SQL);
 				conn.commit();
@@ -175,7 +175,7 @@ public class Dao {
 			conn.setAutoCommit(false);
 			String sql = null;
 			if (isNew(conn)) {
-				sql = "insert into AGENT_MGR values (0,CURRENT_TIMESTAMP,0,CURRENT_TIMESTAMP,0,'"
+				sql = "INSERT INTO AGENT_MGR VALUES (0,CURRENT_TIMESTAMP,0,CURRENT_TIMESTAMP,0,'"
 						+ agentVer
 						+ "','"
 						+ linuxDistroVer
@@ -183,7 +183,7 @@ public class Dao {
 						+ kernelVer
 						+ "'," + noOfProcessor + ",'" + processorModel + "')";
 			} else {
-				sql = "update AGENT_MGR set RESTART_FLAG = 0,AGENT_START_TIMESTAMP = CURRENT_TIMESTAMP, "
+				sql = "UPDATE AGENT_MGR SET RESTART_FLAG = 0,AGENT_START_TIMESTAMP = CURRENT_TIMESTAMP, "
 						+ "AGENT_VERSION='"
 						+ agentVer
 						+ "',DISTRO_VERSION='"
@@ -194,7 +194,7 @@ public class Dao {
 						+ noOfProcessor
 						+ ",PROCESSOR_MODEL='"
 						+ processorModel
-						+ "' where id = 0";
+						+ "' WHERE ID = 0";
 			}
 			LOG.trace(sql);
 			pst = conn.prepareStatement(sql);
@@ -221,7 +221,7 @@ public class Dao {
 		try {
 			conn.setAutoCommit(false);
 			s = conn.createStatement();
-			rs = s.executeQuery("select id from AGENT_MGR where id=0");
+			rs = s.executeQuery("SELECT ID FROM AGENT_MGR WHERE id=0");
 			while (rs.next()) {
 				LOG.trace(rs.getInt(1));
 				rs.getInt(1);
@@ -290,7 +290,7 @@ public class Dao {
 		Statement st = null;
 		try {
 			st = conn.createStatement();
-			rs = st.executeQuery("select RESTART_FLAG FROM AGENT_MGR");
+			rs = st.executeQuery("SELECT RESTART_FLAG FROM AGENT_MGR");
 			while (rs.next()) {
 				LOG.trace(rs.getInt(1));
 				if (rs.getInt(1) == 0) {
@@ -320,7 +320,7 @@ public class Dao {
 		PreparedStatement pst = null;
 		try {
 			conn.setAutoCommit(false);
-			String sql = "update AGENT_MGR set LAST_UPDATED_TIMESTAMP = CURRENT_TIMESTAMP where id =0 ";
+			String sql = "UPDATE AGENT_MGR set LAST_UPDATED_TIMESTAMP = CURRENT_TIMESTAMP WHERE id =0 ";
 			LOG.trace(sql);
 			pst = conn.prepareStatement(sql);
 			pst.executeUpdate();
@@ -400,7 +400,7 @@ public class Dao {
 							return false;
 						}
 					}
-					if (i == 0) {
+					if (i == 0 && !line.startsWith("ERROR_CODE")) {
 						sbFront.append(") ");
 					}
 					sbBack.append(") ");
@@ -451,7 +451,7 @@ public class Dao {
 					LOG.error("cur_key:" + sbCurKeyCheck);
 					continue;
 				}
-				if (line.contains("::")) {
+				if (line.contains("::") && !line.startsWith("ERROR_CODE")) {
 					i++;
 				}
 			}
@@ -493,7 +493,7 @@ public class Dao {
 
 			StringBuffer sqlBuf = new StringBuffer("insert into ");
 			sqlBuf.append(EventTable);
-			sqlBuf.append(" (TIME,EVENT_CODE,SEVERITY,MESSAGE) values (CURRENT_TIMESTAMP,'");
+			sqlBuf.append(" (TIME,EVENT_CODE,SEVERITY,MESSAGE) VALUES (CURRENT_TIMESTAMP,'");
 			sqlBuf.append(eventCode);
 			sqlBuf.append("','");
 			sqlBuf.append(serverity);
@@ -530,8 +530,8 @@ public class Dao {
 				java.sql.Timestamp basic_timestamp = new java.sql.Timestamp(
 						System.currentTimeMillis() - time);
 				LOG.trace(basic_timestamp);
-				String SQL = "delete from " + table
-						+ " where time < timestamp('" + basic_timestamp + "')";
+				String SQL = "DELETE FROM " + table
+						+ " WHERE TIME < TIMESTAMP('" + basic_timestamp + "')";
 				LOG.info(SQL);
 				st = conn.createStatement();
 				st.executeUpdate(SQL);
