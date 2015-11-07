@@ -522,6 +522,7 @@ public class Dao {
 		try {
 			LOG.trace(cf.getConfFile());
 			ArrayList<String> tables = cf.getPluginNames();
+			tables.add("AGENT_EVENT");
 			for (String table : tables) {
 				// Sample: java.sql.TimeStamp
 				// pointTS=java.sql.Timestamp.valueOf("2015-10-08 00:00:00");
