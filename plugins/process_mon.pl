@@ -29,7 +29,7 @@ sub main(){
 			}
 			$metrics{"cmd"}=substr ($metrics{"cmd"},0,100);
 			my $pcpu=$metrics{"pcpu"};
-			if ($pcpu >20 && $metrics{"elapsed_time"}=~m/\d+\-/){
+			if ($pcpu >10 && $metrics{"elapsed_time"}=~m/\d+\-/){
 				my $pid_str=$metrics{"pid"};
 				my $cmd_str=$metrics{"cmd"};
 				print ("ERROR_CODE::AGENT_CPU000,,SEVERITY::FATAL,,MESSAGE::PID:$pid_str($cmd_str) CPU usage is $pcpu%\n");
