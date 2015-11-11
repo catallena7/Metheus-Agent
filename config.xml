@@ -6,7 +6,7 @@
 	<port>1527</port>
 	<plugins>
 		<plugin name="CPU_LOAD">
-			<path>/home/metheus/plugins/cpu_load.pl</path>
+			<path>/home/metheus/plugins/cpuLoad.pl</path>
 			<interval_sec>60</interval_sec>
 			<timeout_sec>2</timeout_sec>
 			<columns>
@@ -231,9 +231,9 @@
 					<type name="cmd">varchar(100)</type>
 				</column>
 			</columns>
-		</plugin> -->
+		</plugin>
 		<plugin name="process_mon">
-			<path>/home/metheus/plugins/process_mon.pl</path>
+			<path>/home/metheus/plugins/processMon.pl</path>
 			<interval_sec>60</interval_sec>
 			<timeout_sec>10</timeout_sec>
 			<columns>

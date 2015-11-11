@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 use strict;
-my @DIRS=("/opt/db-derby-10.11.1.1-bin","/home/catallena7");
+my @DIRS=("/opt/db-derby-10.11.1.1-bin","/home/metheus");
 
 sub main(){
 	my %metrics;

@@ -17,7 +17,7 @@ sub main(){
 		if ($cpu_metrics{"pcpu"}<$BASE_PCPU){
 			last;
 		}
-		$cpu_metrics{"pcpu"}=$items[4];
+		$cpu_metrics{"pmem"}=$items[4];
 		$cpu_metrics{"rss"}=$items[5];
 		$cpu_metrics{"vsz"}=$items[6];
 		$cpu_metrics{"elapsed_time"}=$items[7];
