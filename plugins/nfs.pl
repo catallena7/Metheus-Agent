@@ -166,7 +166,7 @@ sub main(){
 				print "user_id::".$user.",,Filer_name::".$filer.",,Data_type::writeOpsP,,value::",$writeOpsP."\n";
 				print "user_id::".$user.",,Filer_name::".$filer.",,Data_type::cmdOpsP,,value::",$cmdOpsP."\n";
 				print "user_id::".$user.",,Filer_name::".$filer.",,Data_type::readBytes,,value::",$readBytes."\n";
-				print "user_id::".$user.",,Filer_name::".$filer.",,Data_type::writeBytes,,value::",$readOpsP."\n";
+				print "user_id::".$user.",,Filer_name::".$filer.",,Data_type::writeBytes,,value::",$writeBytes."\n";
 			}
 			push @curData,$filer."::".$user."::readOps,,".$readOps."\n";
 			push @curData,$filer."::".$user."::writeOps,,".$writeOps."\n";
