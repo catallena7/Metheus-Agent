@@ -4,7 +4,7 @@ use Date::Parse;
         
 #WARNING:please check file permission before running this script
 my @SYSLOG_FILES=("/var/log/messages");
-my @KEYWORDS=("crash","unexpectedly","Out of memory: Kill process","error","fail");#case insensitive
+my @KEYWORDS=("crash","unexpectedly","Out of memory: Kill process","error","fail","shutdown");#case insensitive
 
 my @out_content;
 
